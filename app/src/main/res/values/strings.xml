@@ -12,4 +12,8 @@
     <string name="log_in">LOG IN</string>
     <string name="need_an_account">NEED AN ACCOUNT?</string>
     <string name="register">REGISTER</string>
+    <string name="personal_details">PERSONAL DETAILS</string>
+    <string name="surname">SURNAME</string>
+    <string name="name">NAME</string>
+    <string name="create_account">CREATE ACCOUNT</string>
 </resources>
