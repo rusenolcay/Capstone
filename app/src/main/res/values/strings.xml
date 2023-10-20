@@ -6,4 +6,10 @@
     <string name="search">Search</string>
     <string name="favorites">Favorites</string>
     <string name="cart">Cart</string>
+    <string name="log_in_to_your_account">LOG IN TO YOUR ACCOUNT</string>
+    <string name="email">EMAIL</string>
+    <string name="password">PASSWORD</string>
+    <string name="log_in">LOG IN</string>
+    <string name="need_an_account">NEED AN ACCOUNT?</string>
+    <string name="register">REGISTER</string>
 </resources>
