@@ -1,8 +1,9 @@
-package com.rusen.capstoneproject
+package com.rusen.capstoneproject.ui.cart
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.rusen.capstoneproject.R
 import com.rusen.capstoneproject.common.viewBinding
 import com.rusen.capstoneproject.databinding.FragmentCartBinding
 
