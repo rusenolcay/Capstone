@@ -1,8 +1,9 @@
-package com.rusen.capstoneproject
+package com.rusen.capstoneproject.ui.favorites
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import com.rusen.capstoneproject.R
 import com.rusen.capstoneproject.common.viewBinding
 import com.rusen.capstoneproject.databinding.FragmentFavoritesBinding
 
