@@ -21,17 +21,9 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         }
         binding.btnCreate.setOnClickListener {
             if (binding.email.text.toString().isBlank()) {
-                Toast.makeText(
-                    context,
-                    "Lutfen gecerli bir email adresi giriniz!",
-                    Toast.LENGTH_SHORT
-                ).show()
+                showMessage("Please enter a valid email address!")
             } else if (binding.password.text.toString().length < 6) {
-                Toast.makeText(
-                    context,
-                    "Lutfen en az 6 haneli bir sifre giriniz!",
-                    Toast.LENGTH_SHORT
-                ).show()
+                showMessage("Please enter a password of at least 6 digits!")
             } else {
                 register()
             }
@@ -43,9 +35,13 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             binding.email.text.toString(),
             binding.password.text.toString()
         ).addOnSuccessListener {
-            Toast.makeText(context, "Başarılı", Toast.LENGTH_SHORT).show()
+            showMessage("Successful")
         }.addOnFailureListener {
-            Toast.makeText(context, "Başarısız", Toast.LENGTH_SHORT).show()
+            showMessage("Unsuccessful")
         }
+    }
+
+    private fun showMessage(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }
