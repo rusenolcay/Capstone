@@ -2,15 +2,15 @@ package com.rusen.capstoneproject.ui.login.register
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.rusen.capstoneproject.BaseFragment
 import com.rusen.capstoneproject.R
 import com.rusen.capstoneproject.common.viewBinding
 import com.rusen.capstoneproject.databinding.FragmentRegisterBinding
 
-class RegisterFragment : Fragment(R.layout.fragment_register) {
+class RegisterFragment : BaseFragment(R.layout.fragment_register) {
 
     private val binding by viewBinding(FragmentRegisterBinding::bind)
 
@@ -35,13 +35,9 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             binding.email.text.toString(),
             binding.password.text.toString()
         ).addOnSuccessListener {
-            showMessage("Successful")
+            findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToHomeFragment())
         }.addOnFailureListener {
             showMessage("Unsuccessful")
         }
-    }
-
-    private fun showMessage(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }
