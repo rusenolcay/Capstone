@@ -14,4 +14,7 @@
     <string name="surname">SURNAME</string>
     <string name="name">NAME</string>
     <string name="create_account">CREATE ACCOUNT</string>
+    <string name="product_price">%.2f TL</string>
+    <string name="special_prices">Özel Fiyatlar</string>
+    <string name="all_products">Tüm Ürünler</string>
 </resources>
