@@ -4,7 +4,7 @@
 - [ ] Hilt
 - [ ] Coroutine
 - [X] Navigation Component
-- [ ] Retrofit
+- [X] Retrofit
 - [ ] Room
 - [X] Firebase Auth
 - [ ] Glide
@@ -15,7 +15,7 @@
 - [X] Splash Screen
 - [X] Sign in Screen
 - [X] Register Screen
-- [ ] Home Screen
+- [X] Home Screen
 - [ ] Detail Screen
 - [ ] Cart Screen
 - [ ] Search Screen
