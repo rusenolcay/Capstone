@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.rusen.capstoneproject.R
 import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.databinding.ItemProductBinding
@@ -46,6 +47,7 @@ class ProductsAdapter() : ListAdapter<Product, ProductsAdapter.ProductViewHolder
                 } else {
                     tvProductDiscountedPrice.visibility = View.GONE
                 }
+                Glide.with(root.context).load(product.imageOne).into(ivProductImage)
             }
         }
     }

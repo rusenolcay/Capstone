@@ -7,7 +7,7 @@
 - [X] Retrofit
 - [ ] Room
 - [X] Firebase Auth
-- [ ] Glide
+- [X] Glide
 - [ ] Chucker
 
 ## TODO
