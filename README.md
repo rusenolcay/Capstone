@@ -8,7 +8,7 @@
 - [ ] Room
 - [X] Firebase Auth
 - [X] Glide
-- [ ] Chucker
+- [X] Chucker
 
 ## TODO
 
@@ -16,7 +16,7 @@
 - [X] Sign in Screen
 - [X] Register Screen
 - [X] Home Screen
-- [ ] Detail Screen
+- [X] Detail Screen
 - [ ] Cart Screen
 - [ ] Search Screen
 - [ ] Favorites Screen

@@ -1,6 +1,7 @@
 package com.rusen.capstoneproject
 
 import android.app.Application
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.rusen.capstoneproject.data.source.remote.ProductService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -16,14 +17,15 @@ class CapstoneApplication : Application() {
 
         var productService: ProductService? = null
     }
-
     override fun onCreate() {
         super.onCreate()
         productService = provideRetrofit()
     }
-     fun provideRetrofit(): ProductService {
+    fun provideRetrofit(): ProductService {
+        val chucker = ChuckerInterceptor.Builder(this).build()
         val client = OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .addInterceptor(chucker)
             .addInterceptor(
                 Interceptor { chain ->
                     val builder = chain.request().newBuilder()
