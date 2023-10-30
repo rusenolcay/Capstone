@@ -1,7 +1,7 @@
 package com.rusen.capstoneproject.data.model
 
 data class GetProductDetailResponse(
-    val product:Product?,
-    val status:Int,
-    val message: String?
+    val product: Product? = null,
+    val status: Int? = null,
+    val message: String? = null
 )

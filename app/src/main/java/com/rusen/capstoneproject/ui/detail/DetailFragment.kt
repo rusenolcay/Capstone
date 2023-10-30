@@ -11,6 +11,7 @@ import com.rusen.capstoneproject.CapstoneApplication
 import com.rusen.capstoneproject.R
 import com.rusen.capstoneproject.common.viewBinding
 import com.rusen.capstoneproject.data.model.GetProductDetailResponse
+import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.databinding.FragmentDetailBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,7 +22,8 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private val args by navArgs<DetailFragmentArgs>()
 
-    val imageAdapter = ImageAdapter()
+    private val imageAdapter = ImageAdapter()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -39,28 +41,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                     val result = response.body()
 
                     if (result?.status == 200 && result.product != null) {
-                        result.product.apply {
-                            binding.tvTitle.text = title
-                            binding.tvPrice.text = String.format(
-                                binding.tvPrice.context.getString(R.string.product_price), price
-                            )
-                            binding.tvDiscounted.text = String.format(
-                                binding.tvDiscounted.context.getString(R.string.product_price),
-                                salePrice
-                            )
-                            if (saleState == true) {
-                                binding.tvDiscounted.visibility = View.VISIBLE
-                                binding.tvPrice.paintFlags =
-                                    binding.tvPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                            } else {
-                                binding.tvDiscounted.visibility = View.GONE
-
-                            }
-                            binding.tvDesriction.text = description
-
-                            val imageList = listOf(imageOne, imageTwo, imageThree)
-                            imageAdapter.submitList(imageList)
-                        }
+                        onRetrievedResponse(result.product)
                     } else {
                         Toast.makeText(requireContext(), result?.message, Toast.LENGTH_SHORT).show()
                     }
@@ -69,7 +50,32 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                 override fun onFailure(call: Call<GetProductDetailResponse>, t: Throwable) {
                     Log.e("GetProductDetail", t.message.orEmpty())
                 }
-
             })
+    }
+
+    private fun onRetrievedResponse(product: Product) {
+        with(binding) {
+            tvTitle.text = product.title
+            tvPrice.text = String.format(getString(R.string.product_price), product.price)
+            tvDesriction.text = product.description
+            if (product.saleState == true) {
+                tvDiscounted.text =
+                    String.format(getString(R.string.product_price), product.salePrice)
+                tvDiscounted.visibility = View.VISIBLE
+                tvPrice.paintFlags =
+                    tvPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            } else {
+                tvDiscounted.visibility = View.GONE
+            }
+
+            updateImageList(product)
+        }
+    }
+
+    private fun updateImageList(product: Product) {
+        val imageList = with(product) {
+            listOf(imageOne, imageTwo, imageThree)
+        }
+        imageAdapter.submitList(imageList)
     }
 }

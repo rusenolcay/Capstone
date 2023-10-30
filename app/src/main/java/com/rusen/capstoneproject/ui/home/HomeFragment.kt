@@ -51,7 +51,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         })
     }
 
-    fun onProductClick(id: Long){
+    private fun onProductClick(id: Long){
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(id))
     }
 
