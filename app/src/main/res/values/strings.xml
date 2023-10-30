@@ -17,4 +17,11 @@
     <string name="product_price">%.2f TL</string>
     <string name="special_prices">Özel Fiyatlar</string>
     <string name="all_products">Tüm Ürünler</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="baslik">Baslik</string>
+    <string name="fiyat">Fiyat</string>
+    <string name="aciklama">Aciklama</string>
+    <string name="indirimli_fiyat">Indirimli Fiyat</string>
+    <string name="sepete_ekle">Sepete Ekle</string>
 </resources>

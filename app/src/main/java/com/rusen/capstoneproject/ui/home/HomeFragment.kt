@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.rusen.capstoneproject.BaseFragment
 import com.rusen.capstoneproject.CapstoneApplication
 import com.rusen.capstoneproject.R
@@ -16,8 +17,8 @@ import retrofit2.Response
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
     private val binding by viewBinding(FragmentHomeBinding::bind)
-    private val discountedProductsAdapter = ProductsAdapter()
-    private val productsAdapter = ProductsAdapter()
+    private val discountedProductsAdapter = ProductsAdapter(onProductClick = ::onProductClick)
+    private val productsAdapter = ProductsAdapter(onProductClick = ::onProductClick)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -48,6 +49,10 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 Log.e("GetProducts", t.message.orEmpty())
             }
         })
+    }
+
+    fun onProductClick(id: Long){
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(id))
     }
 
     /**

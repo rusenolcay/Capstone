@@ -13,21 +13,24 @@ import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.databinding.ItemProductBinding
 
 
-class ProductsAdapter() : ListAdapter<Product, ProductsAdapter.ProductViewHolder>(ProductDiffUtilCallBack()) {
+class ProductsAdapter(
+    private val onProductClick: (Long) -> Unit
+) : ListAdapter<Product, ProductsAdapter.ProductViewHolder>(ProductDiffUtilCallBack()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): ProductViewHolder {
         val binding = ItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ProductViewHolder(binding)
+        return ProductViewHolder(binding, onProductClick)
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) =
         holder.bind(product = getItem(position))
 
     class ProductViewHolder(
-        private val binding: ItemProductBinding
+        private val binding: ItemProductBinding,
+        private val onProductClick: (Long) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(product: Product) {
@@ -48,6 +51,9 @@ class ProductsAdapter() : ListAdapter<Product, ProductsAdapter.ProductViewHolder
                     tvProductDiscountedPrice.visibility = View.GONE
                 }
                 Glide.with(root.context).load(product.imageOne).into(ivProductImage)
+                root.setOnClickListener {
+                    product.id?.let { onProductClick(it) }
+                }
             }
         }
     }

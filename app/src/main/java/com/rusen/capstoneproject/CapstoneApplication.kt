@@ -4,11 +4,11 @@ import android.app.Application
 import com.rusen.capstoneproject.data.source.remote.ProductService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class CapstoneApplication : Application() {
-
     companion object {
         private const val BASE_URL = "https://api.canerture.com/ecommerce/"
         private const val STORE = "store"
@@ -21,17 +21,16 @@ class CapstoneApplication : Application() {
         super.onCreate()
         productService = provideRetrofit()
     }
-
-    private fun provideRetrofit(): ProductService {
+     fun provideRetrofit(): ProductService {
         val client = OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .addInterceptor(
                 Interceptor { chain ->
                     val builder = chain.request().newBuilder()
                     builder.header(STORE, STORE_NAME)
                     return@Interceptor chain.proceed(builder.build())
                 }
-            )
-            .build()
+            ).build()
 
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
