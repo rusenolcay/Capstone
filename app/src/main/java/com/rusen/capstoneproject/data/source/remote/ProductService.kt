@@ -1,6 +1,7 @@
 package com.rusen.capstoneproject.data.source.remote
 
 import com.rusen.capstoneproject.data.model.GetProductDetailResponse
+import com.rusen.capstoneproject.data.model.GetProductSearchResponse
 import com.rusen.capstoneproject.data.model.GetProductsResponse
 import retrofit2.Call
 import retrofit2.http.GET
@@ -14,4 +15,9 @@ interface ProductService {
     fun getProductDetail(
         @Query("id") id : Long
     ): Call<GetProductDetailResponse>
+
+    @GET("search_product.php")
+    fun getProductsByQuery(
+        @Query("query") query : String
+    ): Call<GetProductSearchResponse>
 }
