@@ -11,12 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingBottom="150dp"
+        android:paddingBottom="140dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_image" />
 
     <ImageView
         android:id="@+id/ivBack"
@@ -30,11 +31,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/sheet"
+        style="@style/Widget.Demo.BottomSheet"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/grey"
+        android:layout_height="wrap_content"
         app:behavior_hideable="false"
-        app:behavior_peekHeight="130dp"
+        app:behavior_peekHeight="140dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         tools:behavior_peekHeight="550dp">
 
@@ -43,7 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
             android:text="@string/baslik"
             android:textSize="18sp"
@@ -116,11 +117,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginVertical="16dp"
             android:layout_marginEnd="16dp"
             android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvDescription"
             tools:text="@tools:sample/lorem" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_bottom_sheet_grapple"
+        android:translationY="12dp"
+        android:translationZ="8dp"
+        app:layout_anchor="@id/sheet"
+        app:layout_anchorGravity="center_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
