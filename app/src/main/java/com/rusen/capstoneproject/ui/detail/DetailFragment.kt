@@ -8,9 +8,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.firebase.auth.FirebaseAuth
 import com.rusen.capstoneproject.CapstoneApplication
 import com.rusen.capstoneproject.R
 import com.rusen.capstoneproject.common.viewBinding
+import com.rusen.capstoneproject.data.model.AddToCardRequest
+import com.rusen.capstoneproject.data.model.AddToCardResponse
 import com.rusen.capstoneproject.data.model.GetProductDetailResponse
 import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.databinding.FragmentDetailBinding
@@ -32,13 +35,13 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             it.findNavController().popBackStack()
         }
         binding.btnAddToBasket.setOnClickListener {
-            val action = DetailFragmentDirections.actionDetailFragmentToCartFragment()
-            it.findNavController().navigate(action)
+            addProductToCart()
         }
 
         getProductDetail(args.productId)
         binding.rvImageList.adapter = imageAdapter
     }
+
 
     private fun getProductDetail(id: Long) {
         CapstoneApplication.productService?.getProductDetail(id)
@@ -89,4 +92,26 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         }
         imageAdapter.submitList(imageList)
     }
+
+    private fun addProductToCart() {
+        FirebaseAuth.getInstance().currentUser?.let { user ->
+            val productId = args.productId
+            val request = AddToCardRequest(userId = user.uid, productId = productId)
+            CapstoneApplication.productService?.addProductToCart(request)
+                ?.enqueue(object : Callback<AddToCardResponse> {
+                    override fun onResponse(
+                        call: Call<AddToCardResponse>,
+                        response: Response<AddToCardResponse>
+                    ) {
+                        val result = response.body()
+                        Toast.makeText(requireContext(), result?.message, Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun onFailure(call: Call<AddToCardResponse>, t: Throwable) {
+                        Log.e("GetProductDetail", t.message.orEmpty())
+                    }
+                })
+        }
+    }
+
 }
