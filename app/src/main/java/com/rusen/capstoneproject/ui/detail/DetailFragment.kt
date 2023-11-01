@@ -3,9 +3,10 @@ package com.rusen.capstoneproject.ui.detail
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rusen.capstoneproject.CapstoneApplication
 import com.rusen.capstoneproject.R
@@ -26,6 +27,14 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.ivBack.setOnClickListener {
+            it.findNavController().popBackStack()
+        }
+        binding.btnAddToBasket.setOnClickListener {
+            val action = DetailFragmentDirections.actionDetailFragmentToCartFragment()
+            it.findNavController().navigate(action)
+        }
 
         getProductDetail(args.productId)
         binding.rvImageList.adapter = imageAdapter
@@ -57,7 +66,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         with(binding) {
             tvTitle.text = product.title
             tvPrice.text = String.format(getString(R.string.product_price), product.price)
-            tvDesriction.text = product.description
+            tvDescription.text = product.description
             if (product.saleState == true) {
                 tvDiscounted.text =
                     String.format(getString(R.string.product_price), product.salePrice)
@@ -67,6 +76,8 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             } else {
                 tvDiscounted.visibility = View.GONE
             }
+            tvCategory.text = String.format(getString(R.string.category), product.category)
+            product.rate?.let { ratingBar.rating = it.toFloat() }
 
             updateImageList(product)
         }

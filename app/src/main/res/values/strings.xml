@@ -22,4 +22,5 @@
     <string name="aciklama">Aciklama</string>
     <string name="indirimli_fiyat">Indirimli Fiyat</string>
     <string name="sepete_ekle">Sepete Ekle</string>
+    <string name="category">Kategori = %s</string>
 </resources>
