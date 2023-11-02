@@ -4,6 +4,7 @@ import com.rusen.capstoneproject.data.model.AddToCardRequest
 import com.rusen.capstoneproject.data.model.AddToCardResponse
 import com.rusen.capstoneproject.data.model.GetProductDetailResponse
 import com.rusen.capstoneproject.data.model.GetProductSearchResponse
+import com.rusen.capstoneproject.data.model.GetProductsCartResponse
 import com.rusen.capstoneproject.data.model.GetProductsResponse
 import retrofit2.Call
 import retrofit2.http.Body
@@ -29,4 +30,9 @@ interface ProductService {
     fun addProductToCart(
          @Body request: AddToCardRequest
     ): Call<AddToCardResponse>
+
+    @GET("get_cart_products.php")
+    fun getProductsCart(
+        @Query("userId") userId : String
+    ): Call<GetProductsCartResponse>
 }

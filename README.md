@@ -17,7 +17,7 @@
 - [X] Register Screen
 - [X] Home Screen
 - [X] Detail Screen
-- [ ] Cart Screen
+- [X] Cart Screen
 - [ ] Search Screen
 - [ ] Favorites Screen
 - [ ] Payment Screen
