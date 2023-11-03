@@ -14,13 +14,13 @@ import com.rusen.capstoneproject.databinding.ItemCartBinding
 
 
 class CartAdapter(
-    private val onProductClick: (Long) -> Unit
-
+    private val onProductClick: (Long) -> Unit,
+    private val onProductDelete: (Long) -> Unit
 ) : ListAdapter<Product, CartAdapter.CartViewHolder>(CartDiffUtilCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
         val binding = ItemCartBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CartViewHolder(binding, onProductClick)
+        return CartViewHolder(binding, onProductClick, onProductDelete)
     }
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
@@ -29,7 +29,8 @@ class CartAdapter(
 
     class CartViewHolder(
         private val binding: ItemCartBinding,
-        private val onProductClick: (Long) -> Unit
+        private val onProductClick: (Long) -> Unit,
+        private val onProductDelete: (Long) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product) {
             with(binding) {
@@ -51,6 +52,9 @@ class CartAdapter(
                 Glide.with(binding.root.context).load(product.imageOne).into(binding.ivCartImage)
                 root.setOnClickListener {
                     product.id?.let { onProductClick(it) }
+                }
+                ivClear.setOnClickListener {
+                    product.id?.let { onProductDelete(it) }
                 }
             }
         }
