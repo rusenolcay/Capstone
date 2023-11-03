@@ -23,9 +23,10 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="?actionBarSize"
         app:menu="@menu/bottom_nav_menu"
         app:backgroundTint="@color/white"
+        app:labelVisibilityMode="unlabeled"
         app:itemIconTint="@drawable/botom_nav_colors"
         app:itemTextColor="@drawable/botom_nav_colors"
         app:layout_constraintBottom_toBottomOf="parent"

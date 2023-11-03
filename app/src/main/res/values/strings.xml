@@ -28,4 +28,6 @@
     <string name="cart_price">Price</string>
     <string name="cart_title">Title</string>
     <string name="cart_discound_price">DiscoundPrice</string>
+    <string name="total">TOPLAM</string>
+    <string name="forward">DEVAM ET</string>
 </resources>

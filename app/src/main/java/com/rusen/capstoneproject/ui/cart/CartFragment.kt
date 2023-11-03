@@ -52,6 +52,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                     if (result?.status == 200) {
                         updateUI(result.products)
                     } else {
+                        updateUI(emptyList())
                         Toast.makeText(context, result?.message, Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -73,7 +74,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                     ) {
                         val result = response.body()
                         if (result?.status == 200) {
-                            cartAdapter.submitList(emptyList())
+                            updateUI(emptyList())
                         } else {
                             Toast.makeText(context, result?.message, Toast.LENGTH_SHORT).show()
                         }
@@ -96,6 +97,27 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
     private fun updateUI(products: List<Product>) {
         cartAdapter.submitList(products)
+
+        // products icerisindeki urunlerinin fiyatinin toplamini bulucaksin. map kullanabilirsin. Eger indirimliyse indirimli fiyatini baz alacaksin
+        val totalPrice = products.mapNotNull {
+            if (it.saleState == true) {
+                it.salePrice
+            } else {
+                it.price
+            }
+        }.sum()
+
+        binding.tvTotalPrice.text = String.format(
+            binding.tvTotalPrice.context.getString(R.string.product_price),
+            totalPrice
+        )
+
+        if (totalPrice == 0.0) {
+            binding.btnPurchase.visibility = View.GONE
+            binding.tvTotal.visibility = View.GONE
+            binding.tvTotalPrice.visibility = View.GONE
+            binding.ivClearCart.visibility = View.GONE
+        }
     }
 
     private fun onProductDelete(productId: Long) {
@@ -110,7 +132,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                         //Basarili istek sonucunda silinmesi istenilen urunun productId'sini suanki listede filtreler ve bulunca siler.
                         val productList = cartAdapter.currentList.toMutableList()
                         productList.removeIf { it.id == productId }
-                        cartAdapter.submitList(productList) // Guncelenen listeyi submitliyoruz
+                        updateUI(productList)
                     } else {
                         Toast.makeText(context, result?.message, Toast.LENGTH_SHORT).show()
                     }
