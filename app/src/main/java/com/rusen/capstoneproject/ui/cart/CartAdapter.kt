@@ -35,7 +35,7 @@ class CartAdapter(
             with(binding) {
                 tvTitleCart.text = product.title
                 tvPrice.text = String.format(
-                   tvPrice.context.getString(R.string.product_price),
+                    tvPrice.context.getString(R.string.product_price),
                     product.price
                 )
                 tvDiscounted.text = String.format(
@@ -44,9 +44,9 @@ class CartAdapter(
                 )
                 if (product.saleState == true) {
                     tvDiscounted.visibility = View.VISIBLE
-                   tvPrice.paintFlags = tvPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    tvPrice.paintFlags = tvPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 } else {
-                  tvDiscounted.visibility = View.GONE
+                    tvDiscounted.visibility = View.GONE
                 }
                 Glide.with(binding.root.context).load(product.imageOne).into(binding.ivCartImage)
                 root.setOnClickListener {

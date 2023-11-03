@@ -10,6 +10,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.rusen.capstoneproject.CapstoneApplication
 import com.rusen.capstoneproject.R
 import com.rusen.capstoneproject.common.viewBinding
+import com.rusen.capstoneproject.data.model.ClearCartRequest
+import com.rusen.capstoneproject.data.model.GetClearCartResponse
 import com.rusen.capstoneproject.data.model.GetProductsCartResponse
 import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.databinding.FragmentCartBinding
@@ -28,6 +30,9 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
         getCartProducts()
         binding.recyclerView.adapter = cartAdapter
+        binding.ivClearCart.setOnClickListener {
+            clearCart()
+        }
     }
 
     private fun getCartProducts() {
@@ -49,10 +54,31 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                 override fun onFailure(call: Call<GetProductsCartResponse>, t: Throwable) {
                     Log.e("GetProducts", t.message.orEmpty())
                 }
-
             })
         }
+    }
 
+    private fun clearCart() {
+        FirebaseAuth.getInstance().currentUser?.let { user ->
+            CapstoneApplication.productService?.clearCart(ClearCartRequest(userId = user.uid))
+                ?.enqueue(object : Callback<GetClearCartResponse> {
+                    override fun onResponse(
+                        call: Call<GetClearCartResponse>,
+                        response: Response<GetClearCartResponse>
+                    ) {
+                        val result = response.body()
+                        if (result?.status == 200) {
+                            cartAdapter.submitList(emptyList())
+                        } else {
+                            Toast.makeText(context, result?.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<GetClearCartResponse>, t: Throwable) {
+                        Log.e("GetClear", t.message.orEmpty())
+                    }
+                })
+        }
     }
 
     private fun onProductClick(productId: Long) {

@@ -18,7 +18,7 @@
 - [X] Home Screen
 - [X] Detail Screen
 - [X] Cart Screen
-- [ ] Search Screen
+- [X] Search Screen
 - [ ] Favorites Screen
 - [ ] Payment Screen
 - [ ] Success Screen

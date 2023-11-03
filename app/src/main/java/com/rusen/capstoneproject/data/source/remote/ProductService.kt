@@ -2,6 +2,10 @@ package com.rusen.capstoneproject.data.source.remote
 
 import com.rusen.capstoneproject.data.model.AddToCardRequest
 import com.rusen.capstoneproject.data.model.AddToCardResponse
+import com.rusen.capstoneproject.data.model.ClearCartRequest
+import com.rusen.capstoneproject.data.model.GetClearCartResponse
+import com.rusen.capstoneproject.data.model.GetDeleteFromCartRequest
+import com.rusen.capstoneproject.data.model.GetDeleteFromCartResponse
 import com.rusen.capstoneproject.data.model.GetProductDetailResponse
 import com.rusen.capstoneproject.data.model.GetProductSearchResponse
 import com.rusen.capstoneproject.data.model.GetProductsCartResponse
@@ -35,4 +39,14 @@ interface ProductService {
     fun getProductsCart(
         @Query("userId") userId : String
     ): Call<GetProductsCartResponse>
+
+    @POST("clear_cart.php")
+    fun clearCart(
+        @Body request: ClearCartRequest
+    ): Call<GetClearCartResponse>
+
+    @POST("delete_from_cart.php")
+    fun deleteCart(
+        @Body request: GetDeleteFromCartRequest
+    ): Call<GetDeleteFromCartResponse>
 }
