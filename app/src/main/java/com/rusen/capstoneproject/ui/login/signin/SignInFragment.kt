@@ -30,7 +30,7 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
             )
         }
 
-        viewModel.showMessageEvent.observe(viewLifecycleOwner) { message ->
+        viewModel.showResourceMessageEvent.observe(viewLifecycleOwner) { message ->
             showMessage(getString(message))
         }
         viewModel.navigateHomeEvent.observe(viewLifecycleOwner) {

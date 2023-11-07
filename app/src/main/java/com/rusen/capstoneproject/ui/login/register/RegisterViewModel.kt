@@ -13,9 +13,9 @@ class RegisterViewModel : BaseViewModel() {
 
     fun attemptRegister(email: String, password: String) {
         if (email.isBlank()) {
-            showMessage.value = R.string.email_address
+            showResourceMessage.value = R.string.email_address
         } else if (password.length < 6) {
-            showMessage.value = R.string.password_message
+            showResourceMessage.value = R.string.password_message
         } else {
             register(email, password)
         }
@@ -26,7 +26,7 @@ class RegisterViewModel : BaseViewModel() {
             .addOnSuccessListener {
                 navigateHome.value = true
             }.addOnFailureListener {
-                showMessage.value = R.string.try_again
+                showResourceMessage.value = R.string.try_again
             }
     }
 }

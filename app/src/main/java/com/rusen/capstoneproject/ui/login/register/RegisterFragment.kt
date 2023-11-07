@@ -28,7 +28,7 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
                 password = binding.password.text.toString()
             )
         }
-        viewModel.showMessageEvent.observe(viewLifecycleOwner) { message ->
+        viewModel.showResourceMessageEvent.observe(viewLifecycleOwner) { message ->
             showMessage(getString(message))
         }
         viewModel.navigateHomeEvent.observe(viewLifecycleOwner) {

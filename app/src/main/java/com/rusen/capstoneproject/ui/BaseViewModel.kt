@@ -6,6 +6,9 @@ import androidx.lifecycle.ViewModel
 
 abstract class BaseViewModel : ViewModel() {
 
-    protected val showMessage = MutableLiveData<Int>()
-    val showMessageEvent: LiveData<Int> = showMessage
+    protected val showResourceMessage = MutableLiveData<Int>()
+    val showResourceMessageEvent: LiveData<Int> = showResourceMessage
+
+    protected val showMessage = MutableLiveData<String>()
+    val showMessageEvent: LiveData<String> = showMessage
 }
