@@ -22,9 +22,9 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
         }
         binding.btnLogin.setOnClickListener {
             if (binding.email.text.toString().isBlank()) {
-                showMessage("Please enter a valid email address!")
+                showMessage(getString(R.string.email_address))
             } else if (binding.password.text.toString().length < 6) {
-                showMessage("Please enter a password of at least 6 digits!")
+                showMessage(getString(R.string.password_message))
             } else {
                 signIn()
             }
@@ -38,7 +38,7 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
         ).addOnSuccessListener {
             findNavController().navigate(SignInFragmentDirections.actionSignInFragmentToHomeFragment())
         }.addOnFailureListener {
-            showMessage("Unsuccessful")
+            showMessage(getString(R.string.try_again))
         }
     }
 }

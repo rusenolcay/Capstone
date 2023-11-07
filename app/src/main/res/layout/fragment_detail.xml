@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="@string/discound_price"
+            android:text="@string/discount_price"
             android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@+id/btnAddToBasket"
             app:layout_constraintStart_toEndOf="@+id/tvPrice"

@@ -20,5 +20,5 @@
 - [X] Cart Screen
 - [X] Search Screen
 - [ ] Favorites Screen
-- [ ] Payment Screen
-- [ ] Success Screen
+- [X] Payment Screen
+- [X] Success Screen

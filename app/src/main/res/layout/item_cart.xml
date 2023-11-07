@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="@string/cart_discound_price"
+            android:text="@string/cart_discount_price"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvPrice"
             app:layout_constraintTop_toBottomOf="@+id/tvTitleCart" />

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.rusen.capstoneproject.CapstoneApplication
@@ -37,6 +38,10 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         binding.recyclerView.adapter = cartAdapter
         binding.ivClearCart.setOnClickListener {
             clearCart()
+        }
+        binding.btnPurchase.setOnClickListener {
+            val action = CartFragmentDirections.actionCartFragmentToPaymentFragment()
+            it.findNavController().navigate(action)
         }
     }
 
