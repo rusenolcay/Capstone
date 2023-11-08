@@ -70,8 +70,10 @@ class CartViewModel : BaseViewModel() {
     }
 
     fun onProductDelete(productId: Long, currentList: MutableList<Product>) {
-        CapstoneApplication.productService?.deleteCart(GetDeleteFromCartRequest(productId))
-            ?.enqueue(object : Callback<GetDeleteFromCartResponse> {
+        FirebaseAuth.getInstance().currentUser?.let {
+            val request = GetDeleteFromCartRequest(productId, it.uid)
+            val deleteCart = CapstoneApplication.productService?.deleteCart(request)
+            deleteCart?.enqueue(object : Callback<GetDeleteFromCartResponse> {
                 override fun onResponse(
                     call: Call<GetDeleteFromCartResponse>,
                     response: Response<GetDeleteFromCartResponse>
@@ -90,5 +92,6 @@ class CartViewModel : BaseViewModel() {
                     Log.e("GetClear", t.message.orEmpty())
                 }
             })
+        }
     }
 }
