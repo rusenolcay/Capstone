@@ -8,7 +8,9 @@ import com.rusen.capstoneproject.ui.detail.DetailViewModel
 import com.rusen.capstoneproject.ui.home.HomeViewModel
 import com.rusen.capstoneproject.ui.login.register.RegisterViewModel
 import com.rusen.capstoneproject.ui.login.signin.SignInViewModel
+import com.rusen.capstoneproject.ui.payment.PaymentViewModel
 import com.rusen.capstoneproject.ui.search.SearchViewModel
+import com.rusen.capstoneproject.ui.success.SuccessViewModel
 
 val ViewModelFactory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
@@ -28,6 +30,10 @@ val ViewModelFactory: ViewModelProvider.Factory = object : ViewModelProvider.Fac
             return CartViewModel() as T
         } else if (modelClass.isAssignableFrom(SearchViewModel::class.java)) {
             return SearchViewModel() as T
+        } else if (modelClass.isAssignableFrom(SuccessViewModel::class.java)){
+            return SuccessViewModel() as T
+        }else if (modelClass.isAssignableFrom(PaymentViewModel::class.java)){
+            return PaymentViewModel() as T
         }
         throw IllegalArgumentException("UNKNOWN VIEW MODEL CLASS")
     }
