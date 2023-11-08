@@ -3,6 +3,7 @@ package com.rusen.capstoneproject.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
+import com.rusen.capstoneproject.ui.cart.CartViewModel
 import com.rusen.capstoneproject.ui.detail.DetailViewModel
 import com.rusen.capstoneproject.ui.home.HomeViewModel
 import com.rusen.capstoneproject.ui.login.register.RegisterViewModel
@@ -22,6 +23,8 @@ val ViewModelFactory: ViewModelProvider.Factory = object : ViewModelProvider.Fac
             return HomeViewModel() as T
         }else if (modelClass.isAssignableFrom(DetailViewModel::class.java)){
             return DetailViewModel() as T
+        }else if (modelClass.isAssignableFrom(CartViewModel::class.java)){
+            return CartViewModel() as T
         }
         throw IllegalArgumentException("UNKNOWN VIEW MODEL CLASS")
     }
