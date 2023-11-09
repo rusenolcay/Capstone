@@ -2,8 +2,8 @@ package com.rusen.capstoneproject.ui.favorites
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.rusen.capstoneproject.CapstoneApplication
 import com.rusen.capstoneproject.data.model.Product
+import com.rusen.capstoneproject.data.source.local.ProductLocalDataSource
 import com.rusen.capstoneproject.ui.BaseViewModel
 
 class FavoritesViewModel : BaseViewModel() {
@@ -11,19 +11,21 @@ class FavoritesViewModel : BaseViewModel() {
     private val showFavoriteProducts = MutableLiveData<List<Product>?>()
     val showFavoriteProductsEvent: LiveData<List<Product>?> = showFavoriteProducts
 
+    private val localDataSource = ProductLocalDataSource()
+
     fun onProductDelete(productId: Long, currentList: MutableList<Product>) {
-        CapstoneApplication.dao?.deleteByProductId(productId)
+        localDataSource.deleteByProductId(productId)
         currentList.removeIf { it.id == productId }
         showFavoriteProducts.value = currentList
     }
 
     fun clearFavorites() {
-        CapstoneApplication.dao?.deleteAllProducts()
+        localDataSource.deleteAllProducts()
         showFavoriteProducts.value = emptyList()
     }
 
-    fun getFavoriteProducts(){
-        val products = CapstoneApplication.dao?.getProducts()
+    fun getFavoriteProducts() {
+        val products = localDataSource.getProducts()
         showFavoriteProducts.value = products
     }
 }

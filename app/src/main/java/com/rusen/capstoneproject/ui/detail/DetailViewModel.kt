@@ -9,6 +9,7 @@ import com.rusen.capstoneproject.data.model.AddToCardRequest
 import com.rusen.capstoneproject.data.model.AddToCardResponse
 import com.rusen.capstoneproject.data.model.GetProductDetailResponse
 import com.rusen.capstoneproject.data.model.Product
+import com.rusen.capstoneproject.data.source.local.ProductLocalDataSource
 import com.rusen.capstoneproject.ui.BaseViewModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,6 +22,8 @@ class DetailViewModel : BaseViewModel() {
 
     private val changeFavoriteStatus = MutableLiveData<Boolean>()
     val changeFavoriteStatusEvent: LiveData<Boolean> = changeFavoriteStatus
+
+    private val localDataSource = ProductLocalDataSource()
 
     fun getProductDetail(id: Long) {
         CapstoneApplication.productService?.getProductDetail(id)
@@ -49,7 +52,7 @@ class DetailViewModel : BaseViewModel() {
     }
 
     private fun showFavoriteStatus(id: Long) {
-        val product = CapstoneApplication.dao?.getProduct(id)
+        val product = localDataSource.getProduct(id)
         changeFavoriteStatus.value = product?.favorite ?: false
     }
 
@@ -74,13 +77,13 @@ class DetailViewModel : BaseViewModel() {
     }
 
     fun toggleFavoriteStatus(remoteProduct: Product) {
-        val localProduct = remoteProduct.id?.let { CapstoneApplication.dao?.getProduct(it) }
+        val localProduct = remoteProduct.id?.let { localDataSource.getProduct(it) }
         if (localProduct?.favorite == true) {
-            CapstoneApplication.dao?.deleteProduct(localProduct)
+            localDataSource.deleteProduct(localProduct)
             changeFavoriteStatus.value = false
         } else {
             remoteProduct.favorite = true
-            CapstoneApplication.dao?.addProduct(remoteProduct)
+            localDataSource.addProduct(remoteProduct)
             changeFavoriteStatus.value = true
         }
     }
