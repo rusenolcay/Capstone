@@ -11,6 +11,7 @@ import com.rusen.capstoneproject.ui.login.register.RegisterViewModel
 import com.rusen.capstoneproject.ui.login.signin.SignInViewModel
 import com.rusen.capstoneproject.ui.payment.PaymentViewModel
 import com.rusen.capstoneproject.ui.search.SearchViewModel
+import com.rusen.capstoneproject.ui.splash.SplashViewModel
 import com.rusen.capstoneproject.ui.success.SuccessViewModel
 
 val ViewModelFactory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
@@ -37,6 +38,8 @@ val ViewModelFactory: ViewModelProvider.Factory = object : ViewModelProvider.Fac
             return PaymentViewModel() as T
         }else if (modelClass.isAssignableFrom(FavoritesViewModel::class.java)){
             return FavoritesViewModel() as T
+        }else if (modelClass.isAssignableFrom(SplashViewModel::class.java)){
+            return SplashViewModel() as T
         }
         throw IllegalArgumentException("UNKNOWN VIEW MODEL CLASS")
     }
