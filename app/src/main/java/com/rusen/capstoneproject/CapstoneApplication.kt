@@ -1,7 +1,10 @@
 package com.rusen.capstoneproject
 
 import android.app.Application
+import androidx.room.Room
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.rusen.capstoneproject.data.source.local.CapstoneDatabase
+import com.rusen.capstoneproject.data.source.local.ProductDao
 import com.rusen.capstoneproject.data.source.remote.ProductService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -16,11 +19,15 @@ class CapstoneApplication : Application() {
         private const val STORE_NAME = "ZA'R'AZ"
 
         var productService: ProductService? = null
+        var dao: ProductDao? = null
     }
+
     override fun onCreate() {
         super.onCreate()
         productService = provideRetrofit()
+        dao = provideDatabase().productDao()
     }
+
     fun provideRetrofit(): ProductService {
         val chucker = ChuckerInterceptor.Builder(this).build()
         val client = OkHttpClient.Builder()
@@ -42,4 +49,9 @@ class CapstoneApplication : Application() {
 
         return retrofit.create(ProductService::class.java)
     }
+
+    fun provideDatabase() = Room.databaseBuilder(
+        applicationContext,
+        CapstoneDatabase::class.java, "database-name"
+    ).allowMainThreadQueries().build()
 }

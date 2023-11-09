@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.rusen.capstoneproject.ui.cart.CartViewModel
 import com.rusen.capstoneproject.ui.detail.DetailViewModel
+import com.rusen.capstoneproject.ui.favorites.FavoritesViewModel
 import com.rusen.capstoneproject.ui.home.HomeViewModel
 import com.rusen.capstoneproject.ui.login.register.RegisterViewModel
 import com.rusen.capstoneproject.ui.login.signin.SignInViewModel
@@ -34,6 +35,8 @@ val ViewModelFactory: ViewModelProvider.Factory = object : ViewModelProvider.Fac
             return SuccessViewModel() as T
         }else if (modelClass.isAssignableFrom(PaymentViewModel::class.java)){
             return PaymentViewModel() as T
+        }else if (modelClass.isAssignableFrom(FavoritesViewModel::class.java)){
+            return FavoritesViewModel() as T
         }
         throw IllegalArgumentException("UNKNOWN VIEW MODEL CLASS")
     }

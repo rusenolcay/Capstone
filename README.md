@@ -1,11 +1,11 @@
 ## Tech Stack
 
-- [ ] MVVM
+- [X] MVVM
 - [ ] Hilt
 - [ ] Coroutine
 - [X] Navigation Component
 - [X] Retrofit
-- [ ] Room
+- [X] Room
 - [X] Firebase Auth
 - [X] Glide
 - [X] Chucker
@@ -19,6 +19,6 @@
 - [X] Detail Screen
 - [X] Cart Screen
 - [X] Search Screen
-- [ ] Favorites Screen
+- [X] Favorites Screen
 - [X] Payment Screen
 - [X] Success Screen

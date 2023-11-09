@@ -19,6 +19,9 @@ class DetailViewModel : BaseViewModel() {
     private val showProductDetail = MutableLiveData<Product>()
     val showProductDetailEvent: LiveData<Product> = showProductDetail
 
+    private val changeFavoriteStatus = MutableLiveData<Boolean>()
+    val changeFavoriteStatusEvent: LiveData<Boolean> = changeFavoriteStatus
+
     fun getProductDetail(id: Long) {
         CapstoneApplication.productService?.getProductDetail(id)
             ?.enqueue(object : Callback<GetProductDetailResponse> {
@@ -31,6 +34,7 @@ class DetailViewModel : BaseViewModel() {
                         if (result.status == 200) {
                             result.product?.let { product ->
                                 showProductDetail.value = product
+                                showFavoriteStatus(id)
                             }
                         } else {
                             showMessage.value = result.message
@@ -42,6 +46,11 @@ class DetailViewModel : BaseViewModel() {
                     Log.e("GetProductDetail", t.message.orEmpty())
                 }
             })
+    }
+
+    private fun showFavoriteStatus(id: Long) {
+        val product = CapstoneApplication.dao?.getProduct(id)
+        changeFavoriteStatus.value = product?.favorite ?: false
     }
 
     fun addProductToCart(productId: Long) {
@@ -61,6 +70,18 @@ class DetailViewModel : BaseViewModel() {
                         Log.e("GetProductDetail", t.message.orEmpty())
                     }
                 })
+        }
+    }
+
+    fun toggleFavoriteStatus(remoteProduct: Product) {
+        val localProduct = remoteProduct.id?.let { CapstoneApplication.dao?.getProduct(it) }
+        if (localProduct?.favorite == true) {
+            CapstoneApplication.dao?.deleteProduct(localProduct)
+            changeFavoriteStatus.value = false
+        } else {
+            remoteProduct.favorite = true
+            CapstoneApplication.dao?.addProduct(remoteProduct)
+            changeFavoriteStatus.value = true
         }
     }
 }

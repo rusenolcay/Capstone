@@ -116,14 +116,16 @@
             android:id="@+id/tvCategory"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginVertical="16dp"
+            android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvDescription"
             tools:text="@tools:sample/lorem" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
@@ -136,4 +138,13 @@
         app:layout_anchorGravity="center_horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivFavorite"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        tools:src="@drawable/ic_favorite" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

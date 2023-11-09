@@ -41,6 +41,9 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
         viewModel.showProductDetailEvent.observe(viewLifecycleOwner) {
             showProductDetail(it)
         }
+        viewModel.changeFavoriteStatusEvent.observe(viewLifecycleOwner) {
+            showFavoriteStatus(it)
+        }
     }
 
     private fun showProductDetail(product: Product) {
@@ -60,6 +63,10 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
             tvCategory.text = String.format(getString(R.string.category), product.category)
             product.rate?.let { ratingBar.rating = it.toFloat() }
 
+            binding.ivFavorite.setOnClickListener {
+                viewModel.toggleFavoriteStatus(product)
+            }
+
             updateImageList(product)
         }
     }
@@ -69,5 +76,11 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
             listOf(imageOne, imageTwo, imageThree)
         }
         imageAdapter.submitList(imageList)
+    }
+
+    private fun showFavoriteStatus(status: Boolean?) {
+        if (status == true) {
+            binding.ivFavorite.setImageResource(R.drawable.ic_favorite_filled)
+        } else binding.ivFavorite.setImageResource(R.drawable.ic_favorite)
     }
 }
