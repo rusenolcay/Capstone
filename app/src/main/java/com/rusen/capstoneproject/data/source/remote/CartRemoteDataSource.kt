@@ -2,6 +2,8 @@ package com.rusen.capstoneproject.data.source.remote
 
 import android.util.Log
 import com.rusen.capstoneproject.CapstoneApplication
+import com.rusen.capstoneproject.data.model.AddToCardRequest
+import com.rusen.capstoneproject.data.model.AddToCardResponse
 import com.rusen.capstoneproject.data.model.ClearCartRequest
 import com.rusen.capstoneproject.data.model.GetClearCartResponse
 import com.rusen.capstoneproject.data.model.GetDeleteFromCartRequest
@@ -93,5 +95,32 @@ class CartRemoteDataSource {
                 Log.e("GetClear", t.message.orEmpty())
             }
         })
+    }
+
+    fun addProductToCart(
+        onSuccess: (String?) -> Unit,
+        onFailure: (String?) -> Unit,
+        productId: Long,
+        userId: String
+    ) {
+        val request = AddToCardRequest(userId = userId, productId = productId)
+        CapstoneApplication.productService?.addProductToCart(request)
+            ?.enqueue(object : Callback<AddToCardResponse> {
+                override fun onResponse(
+                    call: Call<AddToCardResponse>,
+                    response: Response<AddToCardResponse>
+                ) {
+                    val result = response.body()
+                    if (result?.status == 200) {
+                        onSuccess(result.message)
+                    } else {
+                        onFailure(result?.message)
+                    }
+                }
+
+                override fun onFailure(call: Call<AddToCardResponse>, t: Throwable) {
+                    Log.e("GetProductDetail", t.message.orEmpty())
+                }
+            })
     }
 }

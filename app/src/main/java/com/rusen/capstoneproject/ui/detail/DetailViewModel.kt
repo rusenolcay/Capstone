@@ -5,11 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.rusen.capstoneproject.CapstoneApplication
-import com.rusen.capstoneproject.data.model.AddToCardRequest
-import com.rusen.capstoneproject.data.model.AddToCardResponse
 import com.rusen.capstoneproject.data.model.GetProductDetailResponse
 import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.data.source.local.ProductLocalDataSource
+import com.rusen.capstoneproject.data.source.remote.CartRemoteDataSource
 import com.rusen.capstoneproject.ui.BaseViewModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -24,6 +23,7 @@ class DetailViewModel : BaseViewModel() {
     val changeFavoriteStatusEvent: LiveData<Boolean> = changeFavoriteStatus
 
     private val localDataSource = ProductLocalDataSource()
+    private val cartRemoteDataSource = CartRemoteDataSource()
 
     fun getProductDetail(id: Long) {
         CapstoneApplication.productService?.getProductDetail(id)
@@ -58,21 +58,16 @@ class DetailViewModel : BaseViewModel() {
 
     fun addProductToCart(productId: Long) {
         FirebaseAuth.getInstance().currentUser?.let { user ->
-            val request = AddToCardRequest(userId = user.uid, productId = productId)
-            CapstoneApplication.productService?.addProductToCart(request)
-                ?.enqueue(object : Callback<AddToCardResponse> {
-                    override fun onResponse(
-                        call: Call<AddToCardResponse>,
-                        response: Response<AddToCardResponse>
-                    ) {
-                        val result = response.body()
-                        showMessage.value = result?.message
-                    }
-
-                    override fun onFailure(call: Call<AddToCardResponse>, t: Throwable) {
-                        Log.e("GetProductDetail", t.message.orEmpty())
-                    }
-                })
+            cartRemoteDataSource.addProductToCart(
+                onSuccess = {
+                    showMessage.value = it
+                },
+                onFailure = {
+                    showMessage.value = it
+                },
+                productId = productId,
+                userId = user.uid
+            )
         }
     }
 
