@@ -12,7 +12,14 @@ class FavoritesViewModel : BaseViewModel() {
     val showFavoriteProductsEvent: LiveData<List<Product>?> = showFavoriteProducts
 
     fun onProductDelete(productId: Long, currentList: MutableList<Product>) {
+        CapstoneApplication.dao?.deleteByProductId(productId)
+        currentList.removeIf { it.id == productId }
+        showFavoriteProducts.value = currentList
+    }
 
+    fun clearFavorites() {
+        CapstoneApplication.dao?.deleteAllProducts()
+        showFavoriteProducts.value = emptyList()
     }
 
     fun getFavoriteProducts(){

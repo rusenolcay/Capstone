@@ -24,6 +24,10 @@ class FavoritesFragment : BaseFragment(R.layout.fragment_favorites) {
 
         binding.recyclerView.adapter = favoritesAdapter
 
+        binding.ivClearFavorite.setOnClickListener {
+            viewModel.clearFavorites()
+        }
+
         viewModel.showFavoriteProductsEvent.observe(viewLifecycleOwner){
             favoritesAdapter.submitList(it)
         }
