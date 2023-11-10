@@ -13,9 +13,10 @@ import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.databinding.ItemProductBinding
 
 
-class ProductsAdapter(
-    private val onProductClick: (Long) -> Unit
-) : ListAdapter<Product, ProductsAdapter.ProductViewHolder>(ProductDiffUtilCallBack()) {
+class ProductsAdapter :
+    ListAdapter<Product, ProductsAdapter.ProductViewHolder>(ProductDiffUtilCallBack()) {
+
+    var onProductClick: (Long) -> Unit = {}
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -46,7 +47,8 @@ class ProductsAdapter(
                 )
                 if (product.saleState == true) {
                     tvProductDiscountedPrice.visibility = View.VISIBLE
-                    tvProductPrice.paintFlags = tvProductPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    tvProductPrice.paintFlags =
+                        tvProductPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 } else {
                     tvProductDiscountedPrice.visibility = View.GONE
                 }

@@ -9,12 +9,14 @@ import com.rusen.capstoneproject.BaseFragment
 import com.rusen.capstoneproject.R
 import com.rusen.capstoneproject.common.viewBinding
 import com.rusen.capstoneproject.databinding.FragmentRegisterBinding
-import com.rusen.capstoneproject.ui.ViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 class RegisterFragment : BaseFragment(R.layout.fragment_register) {
 
     private val binding by viewBinding(FragmentRegisterBinding::bind)
 
-    private val viewModel: RegisterViewModel by viewModels { ViewModelFactory }
+    private val viewModel: RegisterViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

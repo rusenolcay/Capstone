@@ -9,20 +9,24 @@ import com.rusen.capstoneproject.R
 import com.rusen.capstoneproject.common.viewBinding
 import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.databinding.FragmentHomeBinding
-import com.rusen.capstoneproject.ui.ViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     private val binding by viewBinding(FragmentHomeBinding::bind)
-    private val viewModel: HomeViewModel by viewModels { ViewModelFactory }
+    private val viewModel: HomeViewModel by viewModels()
 
-    private val discountedProductsAdapter = ProductsAdapter(onProductClick = ::onProductClick)
-    private val productsAdapter = ProductsAdapter(onProductClick = ::onProductClick)
+    private val discountedProductsAdapter = ProductsAdapter()
+    private val productsAdapter = ProductsAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getProducts()
+
+        discountedProductsAdapter.onProductClick = ::onProductClick
+        productsAdapter.onProductClick = ::onProductClick
 
         with(binding) {
             rvShopList.adapter = productsAdapter
@@ -31,7 +35,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         viewModel.showMessageEvent.observe(viewLifecycleOwner) { message ->
             showMessage(message)
         }
-        viewModel.updateUIEvent.observe(viewLifecycleOwner){
+        viewModel.updateUIEvent.observe(viewLifecycleOwner) {
             updateUI(it)
         }
     }

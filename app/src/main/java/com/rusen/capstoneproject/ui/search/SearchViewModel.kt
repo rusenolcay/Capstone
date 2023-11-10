@@ -5,8 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.data.source.remote.ProductRemoteDataSource
 import com.rusen.capstoneproject.ui.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SearchViewModel : BaseViewModel() {
+@HiltViewModel
+class SearchViewModel @Inject constructor() : BaseViewModel() {
 
     private val showSearchProducts = MutableLiveData<List<Product>?>()
     val showSearchProductsEvent: LiveData<List<Product>?> = showSearchProducts

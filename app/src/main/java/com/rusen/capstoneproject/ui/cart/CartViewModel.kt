@@ -6,8 +6,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.data.source.remote.CartRemoteDataSource
 import com.rusen.capstoneproject.ui.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class CartViewModel : BaseViewModel() {
+@HiltViewModel
+class CartViewModel @Inject constructor() : BaseViewModel() {
 
     private val showCartProducts = MutableLiveData<List<Product>>()
     val showCartProductsEvent: LiveData<List<Product>> = showCartProducts

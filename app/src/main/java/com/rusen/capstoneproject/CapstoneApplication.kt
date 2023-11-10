@@ -6,12 +6,14 @@ import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.rusen.capstoneproject.data.source.local.CapstoneDatabase
 import com.rusen.capstoneproject.data.source.local.ProductDao
 import com.rusen.capstoneproject.data.source.remote.ProductService
+import dagger.hilt.android.HiltAndroidApp
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+@HiltAndroidApp
 class CapstoneApplication : Application() {
     companion object {
         private const val BASE_URL = "https://api.canerture.com/ecommerce/"

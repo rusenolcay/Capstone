@@ -8,8 +8,11 @@ import com.rusen.capstoneproject.data.source.local.ProductLocalDataSource
 import com.rusen.capstoneproject.data.source.remote.CartRemoteDataSource
 import com.rusen.capstoneproject.data.source.remote.ProductRemoteDataSource
 import com.rusen.capstoneproject.ui.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class DetailViewModel : BaseViewModel() {
+@HiltViewModel
+class DetailViewModel @Inject constructor() : BaseViewModel() {
 
     private val showProductDetail = MutableLiveData<Product>()
     val showProductDetailEvent: LiveData<Product> = showProductDetail

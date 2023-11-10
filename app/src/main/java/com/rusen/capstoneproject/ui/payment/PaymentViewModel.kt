@@ -4,8 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.rusen.capstoneproject.R
 import com.rusen.capstoneproject.ui.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class PaymentViewModel : BaseViewModel() {
+@HiltViewModel
+class PaymentViewModel @Inject constructor() : BaseViewModel() {
 
     private val navigateSuccess = MutableLiveData<Boolean>()
     val navigateSuccessEvent: LiveData<Boolean> = navigateSuccess

@@ -10,13 +10,13 @@ import com.rusen.capstoneproject.R
 import com.rusen.capstoneproject.common.viewBinding
 import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.databinding.FragmentCartBinding
-import com.rusen.capstoneproject.ui.ViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class CartFragment : Fragment(R.layout.fragment_cart) {
 
     private val binding by viewBinding(FragmentCartBinding::bind)
-    private val viewModel: CartViewModel by viewModels { ViewModelFactory }
+    private val viewModel: CartViewModel by viewModels()
 
     private val cartAdapter = CartAdapter(
         onProductClick = ::onProductClick,

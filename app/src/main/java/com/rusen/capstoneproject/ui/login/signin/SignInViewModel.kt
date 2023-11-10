@@ -5,8 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.rusen.capstoneproject.R
 import com.rusen.capstoneproject.ui.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SignInViewModel : BaseViewModel() {
+@HiltViewModel
+class SignInViewModel @Inject constructor() : BaseViewModel() {
 
     private val navigateHome = MutableLiveData<Boolean>()
     val navigateHomeEvent: LiveData<Boolean> = navigateHome

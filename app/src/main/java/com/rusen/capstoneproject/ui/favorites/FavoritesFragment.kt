@@ -8,12 +8,13 @@ import com.rusen.capstoneproject.BaseFragment
 import com.rusen.capstoneproject.R
 import com.rusen.capstoneproject.common.viewBinding
 import com.rusen.capstoneproject.databinding.FragmentFavoritesBinding
-import com.rusen.capstoneproject.ui.ViewModelFactory
 import com.rusen.capstoneproject.ui.cart.CartFragmentDirections
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavoritesFragment : BaseFragment(R.layout.fragment_favorites) {
     private val binding by viewBinding(FragmentFavoritesBinding::bind)
-    private val viewModel: FavoritesViewModel by viewModels { ViewModelFactory }
+    private val viewModel: FavoritesViewModel by viewModels()
 
     private val favoritesAdapter = FavoritesAdapter(
         onProductClick = ::onProductClick,

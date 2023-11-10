@@ -8,12 +8,13 @@ import com.rusen.capstoneproject.BaseFragment
 import com.rusen.capstoneproject.R
 import com.rusen.capstoneproject.common.viewBinding
 import com.rusen.capstoneproject.databinding.FragmentSuccessBinding
-import com.rusen.capstoneproject.ui.ViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SuccessFragment : BaseFragment(R.layout.fragment_success) {
 
     private val binding by viewBinding(FragmentSuccessBinding::bind)
-    private val viewModel: SuccessViewModel by viewModels { ViewModelFactory }
+    private val viewModel: SuccessViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -22,7 +23,7 @@ class SuccessFragment : BaseFragment(R.layout.fragment_success) {
             val action = SuccessFragmentDirections.actionSuccessFragmentToHomeFragment()
             it.findNavController().navigate(action)
         }
-        viewModel.showMessageEvent.observe(viewLifecycleOwner){
+        viewModel.showMessageEvent.observe(viewLifecycleOwner) {
             showMessage(it)
         }
     }

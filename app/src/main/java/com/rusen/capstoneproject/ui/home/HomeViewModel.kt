@@ -5,8 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.data.source.remote.ProductRemoteDataSource
 import com.rusen.capstoneproject.ui.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class HomeViewModel : BaseViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor() : BaseViewModel() {
 
     private val updateUI = MutableLiveData<List<Product>?>()
     val updateUIEvent: LiveData<List<Product>?> = updateUI
