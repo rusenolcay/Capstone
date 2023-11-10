@@ -16,7 +16,7 @@ import retrofit2.Response
 
 class CartRemoteDataSource {
 
-    private var service = CapstoneApplication.productService
+    private val service = CapstoneApplication.productService
 
     fun getCartProducts(
         onSuccess: (List<Product>) -> Unit,
@@ -104,23 +104,22 @@ class CartRemoteDataSource {
         userId: String
     ) {
         val request = AddToCardRequest(userId = userId, productId = productId)
-        CapstoneApplication.productService?.addProductToCart(request)
-            ?.enqueue(object : Callback<AddToCardResponse> {
-                override fun onResponse(
-                    call: Call<AddToCardResponse>,
-                    response: Response<AddToCardResponse>
-                ) {
-                    val result = response.body()
-                    if (result?.status == 200) {
-                        onSuccess(result.message)
-                    } else {
-                        onFailure(result?.message)
-                    }
+        service?.addProductToCart(request)?.enqueue(object : Callback<AddToCardResponse> {
+            override fun onResponse(
+                call: Call<AddToCardResponse>,
+                response: Response<AddToCardResponse>
+            ) {
+                val result = response.body()
+                if (result?.status == 200) {
+                    onSuccess(result.message)
+                } else {
+                    onFailure(result?.message)
                 }
+            }
 
-                override fun onFailure(call: Call<AddToCardResponse>, t: Throwable) {
-                    Log.e("GetProductDetail", t.message.orEmpty())
-                }
-            })
+            override fun onFailure(call: Call<AddToCardResponse>, t: Throwable) {
+                Log.e("GetProductDetail", t.message.orEmpty())
+            }
+        })
     }
 }
