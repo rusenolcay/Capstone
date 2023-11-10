@@ -3,6 +3,7 @@ package com.rusen.capstoneproject.data.source.remote
 import android.util.Log
 import com.rusen.capstoneproject.CapstoneApplication
 import com.rusen.capstoneproject.data.model.GetProductDetailResponse
+import com.rusen.capstoneproject.data.model.GetProductSearchResponse
 import com.rusen.capstoneproject.data.model.GetProductsResponse
 import com.rusen.capstoneproject.data.model.Product
 import retrofit2.Call
@@ -61,6 +62,29 @@ class ProductRemoteDataSource {
 
             override fun onFailure(call: Call<GetProductDetailResponse>, t: Throwable) {
                 Log.e("GetProductDetail", t.message.orEmpty())
+            }
+        })
+    }
+
+    fun getProductsByQuery(
+        query: String,
+        onSuccess: (List<Product>?) -> Unit,
+        onFailure: (String?) -> Unit
+    ) {
+        service?.getProductsByQuery(query)?.enqueue(object : Callback<GetProductSearchResponse> {
+            override fun onResponse(
+                call: Call<GetProductSearchResponse>,
+                response: Response<GetProductSearchResponse>
+            ) {
+                val result = response.body()
+                onSuccess(result?.products)
+                if (result?.status != 200) {
+                    onFailure(result?.message)
+                }
+            }
+
+            override fun onFailure(call: Call<GetProductSearchResponse>, t: Throwable) {
+                Log.e("GetProductSearchResponse", t.message.orEmpty())
             }
         })
     }
