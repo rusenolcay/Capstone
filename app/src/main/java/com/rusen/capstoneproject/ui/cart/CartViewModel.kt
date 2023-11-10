@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.rusen.capstoneproject.data.model.Product
-import com.rusen.capstoneproject.data.source.remote.CartRemoteDataSource
+import com.rusen.capstoneproject.data.source.CartRepository
 import com.rusen.capstoneproject.ui.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -15,11 +15,11 @@ class CartViewModel @Inject constructor() : BaseViewModel() {
     private val showCartProducts = MutableLiveData<List<Product>>()
     val showCartProductsEvent: LiveData<List<Product>> = showCartProducts
 
-    private val cartRemoteDataSource = CartRemoteDataSource()
+    private val cartRepository = CartRepository()
 
     fun getCartProducts() {
         FirebaseAuth.getInstance().currentUser?.let { user ->
-            cartRemoteDataSource.getCartProducts(
+            cartRepository.getCartProducts(
                 onSuccess = {
                     showCartProducts.value = it
                 },
@@ -34,7 +34,7 @@ class CartViewModel @Inject constructor() : BaseViewModel() {
 
     fun clearCart() {
         FirebaseAuth.getInstance().currentUser?.let { user ->
-            cartRemoteDataSource.clearCart(
+            cartRepository.clearCart(
                 onSuccess = {
                     showCartProducts.value = emptyList()
                 },
@@ -48,7 +48,7 @@ class CartViewModel @Inject constructor() : BaseViewModel() {
 
     fun onProductDelete(productId: Long, currentList: MutableList<Product>) {
         FirebaseAuth.getInstance().currentUser?.let { user ->
-            cartRemoteDataSource.deleteProductFromCart(
+            cartRepository.deleteProductFromCart(
                 onSuccess = {
                     showCartProducts.value = it
                 },
