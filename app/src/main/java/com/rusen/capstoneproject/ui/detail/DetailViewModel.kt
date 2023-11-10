@@ -1,18 +1,13 @@
 package com.rusen.capstoneproject.ui.detail
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
-import com.rusen.capstoneproject.CapstoneApplication
-import com.rusen.capstoneproject.data.model.GetProductDetailResponse
 import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.data.source.local.ProductLocalDataSource
 import com.rusen.capstoneproject.data.source.remote.CartRemoteDataSource
+import com.rusen.capstoneproject.data.source.remote.ProductRemoteDataSource
 import com.rusen.capstoneproject.ui.BaseViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class DetailViewModel : BaseViewModel() {
 
@@ -24,30 +19,17 @@ class DetailViewModel : BaseViewModel() {
 
     private val localDataSource = ProductLocalDataSource()
     private val cartRemoteDataSource = CartRemoteDataSource()
+    private val productRemoteDataSource = ProductRemoteDataSource()
 
     fun getProductDetail(id: Long) {
-        CapstoneApplication.productService?.getProductDetail(id)
-            ?.enqueue(object : Callback<GetProductDetailResponse> {
-                override fun onResponse(
-                    call: Call<GetProductDetailResponse>,
-                    response: Response<GetProductDetailResponse>
-                ) {
-                    val result = response.body()
-                    result?.let {
-                        if (result.status == 200) {
-                            result.product?.let { product ->
-                                showProductDetail.value = product
-                                showFavoriteStatus(id)
-                            }
-                        } else {
-                            showMessage.value = result.message
-                        }
-                    }
-                }
-
-                override fun onFailure(call: Call<GetProductDetailResponse>, t: Throwable) {
-                    Log.e("GetProductDetail", t.message.orEmpty())
-                }
+        productRemoteDataSource.getProductDetail(
+            id = id,
+            onSuccess = {
+                showProductDetail.value = it
+                showFavoriteStatus(id)
+            },
+            onFailure = {
+                showMessage.value = it
             })
     }
 
