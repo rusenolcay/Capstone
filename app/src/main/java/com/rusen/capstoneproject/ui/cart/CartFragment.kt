@@ -2,18 +2,19 @@ package com.rusen.capstoneproject.ui.cart
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.rusen.capstoneproject.BaseFragment
 import com.rusen.capstoneproject.R
+import com.rusen.capstoneproject.common.Resource
 import com.rusen.capstoneproject.common.viewBinding
 import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.databinding.FragmentCartBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CartFragment : Fragment(R.layout.fragment_cart) {
+class CartFragment : BaseFragment(R.layout.fragment_cart) {
 
     private val binding by viewBinding(FragmentCartBinding::bind)
     private val viewModel: CartViewModel by viewModels()
@@ -36,7 +37,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
             it.findNavController().navigate(action)
         }
         viewModel.showCartProductsEvent.observe(viewLifecycleOwner) {
-            updateUI(it)
+            onViewStateChange(it)
         }
     }
     private fun onProductClick(productId: Long) {
@@ -46,6 +47,15 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
             )
         )
     }
+
+    private fun onViewStateChange(resource: Resource<List<Product>>) {
+        when (resource) {
+            is Resource.Error -> showMessage(resource.message)
+            Resource.Loading -> Unit
+            is Resource.Success -> updateUI(resource.data)
+        }
+    }
+
     private fun updateUI(products: List<Product>) {
         cartAdapter.submitList(products)
 

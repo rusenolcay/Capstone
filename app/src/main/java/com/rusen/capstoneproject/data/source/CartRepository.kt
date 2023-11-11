@@ -33,18 +33,16 @@ class CartRepository {
     }
 
     fun deleteProductFromCart(
-        onSuccess: (List<Product>) -> Unit,
+        onSuccess: () -> Unit,
         onFailure: (String?) -> Unit,
         userId: String,
-        productId: Long,
-        currentList: MutableList<Product>
+        productId: Long
     ) {
         cartRemoteDataSource.deleteProductFromCart(
             onSuccess,
             onFailure,
             userId,
-            productId,
-            currentList
+            productId
         )
     }
 }

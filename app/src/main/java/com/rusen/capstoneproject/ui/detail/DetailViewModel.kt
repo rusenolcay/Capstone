@@ -3,6 +3,7 @@ package com.rusen.capstoneproject.ui.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
+import com.rusen.capstoneproject.common.Resource
 import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.data.source.CartRepository
 import com.rusen.capstoneproject.data.source.ProductRepository
@@ -13,8 +14,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor() : BaseViewModel() {
 
-    private val showProductDetail = MutableLiveData<Product>()
-    val showProductDetailEvent: LiveData<Product> = showProductDetail
+    private val showProductDetail = MutableLiveData<Resource<Product>>()
+    val showProductDetailEvent: LiveData<Resource<Product>> = showProductDetail
 
     private val changeFavoriteStatus = MutableLiveData<Boolean>()
     val changeFavoriteStatusEvent: LiveData<Boolean> = changeFavoriteStatus
@@ -26,11 +27,11 @@ class DetailViewModel @Inject constructor() : BaseViewModel() {
         productRepository.getProductDetail(
             id = id,
             onSuccess = {
-                showProductDetail.value = it
+                showProductDetail.value = Resource.Success(it)
                 showFavoriteStatus(id)
             },
             onFailure = {
-                showMessage.value = it
+                showProductDetail.value = Resource.Error(it)
             })
     }
 

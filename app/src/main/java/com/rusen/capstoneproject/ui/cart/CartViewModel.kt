@@ -3,6 +3,7 @@ package com.rusen.capstoneproject.ui.cart
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
+import com.rusen.capstoneproject.common.Resource
 import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.data.source.CartRepository
 import com.rusen.capstoneproject.ui.BaseViewModel
@@ -12,8 +13,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CartViewModel @Inject constructor() : BaseViewModel() {
 
-    private val showCartProducts = MutableLiveData<List<Product>>()
-    val showCartProductsEvent: LiveData<List<Product>> = showCartProducts
+    private val showCartProducts = MutableLiveData<Resource<List<Product>>>()
+    val showCartProductsEvent: LiveData<Resource<List<Product>>> = showCartProducts
 
     private val cartRepository = CartRepository()
 
@@ -21,11 +22,12 @@ class CartViewModel @Inject constructor() : BaseViewModel() {
         FirebaseAuth.getInstance().currentUser?.let { user ->
             cartRepository.getCartProducts(
                 onSuccess = {
-                    showCartProducts.value = it
+                    showCartProducts.value = Resource.Success(it)
                 },
                 onFailure = {
-                    showCartProducts.value = emptyList()
-                    showMessage.value = it
+                    showCartProducts.value = Resource.Success(emptyList())
+                    showCartProducts.value = Resource.Error(it)
+
                 },
                 userId = user.uid
             )
@@ -36,7 +38,7 @@ class CartViewModel @Inject constructor() : BaseViewModel() {
         FirebaseAuth.getInstance().currentUser?.let { user ->
             cartRepository.clearCart(
                 onSuccess = {
-                    showCartProducts.value = emptyList()
+                    showCartProducts.value = Resource.Success(emptyList())
                 },
                 onFailure = {
                     showMessage.value = it
@@ -50,14 +52,14 @@ class CartViewModel @Inject constructor() : BaseViewModel() {
         FirebaseAuth.getInstance().currentUser?.let { user ->
             cartRepository.deleteProductFromCart(
                 onSuccess = {
-                    showCartProducts.value = it
+                    currentList.removeIf { it.id == productId }
+                    showCartProducts.value = Resource.Success(currentList)
                 },
                 onFailure = {
                     showMessage.value = it
                 },
                 userId = user.uid,
-                productId = productId,
-                currentList = currentList
+                productId = productId
             )
 
         }

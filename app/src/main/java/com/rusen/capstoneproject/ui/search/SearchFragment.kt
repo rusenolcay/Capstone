@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.rusen.capstoneproject.BaseFragment
 import com.rusen.capstoneproject.R
+import com.rusen.capstoneproject.common.Resource
 import com.rusen.capstoneproject.common.viewBinding
 import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.databinding.FragmentSearchBinding
@@ -39,7 +40,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
             showMessage(it)
         }
         viewModel.showSearchProductsEvent.observe(viewLifecycleOwner) {
-            showSearchedProducts(it)
+            onViewStateChange(it)
         }
     }
 
@@ -50,6 +51,15 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
             )
         )
     }
+
+    private fun onViewStateChange(resource: Resource<List<Product>>) {
+        when (resource) {
+            is Resource.Error -> showMessage(resource.message)
+            Resource.Loading -> Unit
+            is Resource.Success -> showSearchedProducts(resource.data)
+        }
+    }
+
 
     private fun showSearchedProducts(products: List<Product>?) {
         productsAdapter.submitList(products)

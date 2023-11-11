@@ -2,6 +2,7 @@ package com.rusen.capstoneproject.ui.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.rusen.capstoneproject.common.Resource
 import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.data.source.ProductRepository
 import com.rusen.capstoneproject.ui.BaseViewModel
@@ -11,8 +12,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor() : BaseViewModel() {
 
-    private val showSearchProducts = MutableLiveData<List<Product>?>()
-    val showSearchProductsEvent: LiveData<List<Product>?> = showSearchProducts
+    private val showSearchProducts = MutableLiveData<Resource<List<Product>>>()
+    val showSearchProductsEvent: LiveData<Resource<List<Product>>> = showSearchProducts
 
     private val productRepository = ProductRepository()
 
@@ -21,7 +22,7 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
             if (query.length >= 3) {
                 getProductsByQuery(query)
             } else {
-                showSearchProducts.value = emptyList()
+                showSearchProducts.value = Resource.Success(emptyList())
             }
         }
     }
@@ -29,10 +30,10 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
     private fun getProductsByQuery(query: String) {
         productRepository.getProductsByQuery(
             onSuccess = {
-                showSearchProducts.value = it
+                showSearchProducts.value = Resource.Success(it ?: emptyList())
             },
             onFailure = {
-                showMessage.value = it
+                showSearchProducts.value = Resource.Error(it)
             },
             query = query
         )

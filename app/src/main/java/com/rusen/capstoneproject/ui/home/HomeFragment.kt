@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.rusen.capstoneproject.BaseFragment
 import com.rusen.capstoneproject.R
+import com.rusen.capstoneproject.common.Resource
 import com.rusen.capstoneproject.common.viewBinding
 import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.databinding.FragmentHomeBinding
@@ -36,7 +37,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             showMessage(message)
         }
         viewModel.updateUIEvent.observe(viewLifecycleOwner) {
-            updateUI(it)
+            onViewStateChange(it)
         }
     }
 
@@ -44,11 +45,19 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(id))
     }
 
-    private fun updateUI(products: List<Product>?) {
+    private fun onViewStateChange(resource: Resource<List<Product>>) {
+        when (resource) {
+            is Resource.Error -> showMessage(resource.message)
+            Resource.Loading -> Unit
+            is Resource.Success -> updateUI(resource.data)
+        }
+    }
+
+    private fun updateUI(products: List<Product>) {
         productsAdapter.submitList(products)
 
         // result.products icindeki saleState degeri true olan urunleri filtreleyerek bulduk.
-        val discountedProducts = products?.filter { it.saleState == true }
+        val discountedProducts = products.filter { it.saleState == true }
         discountedProductsAdapter.submitList(discountedProducts)
     }
 }

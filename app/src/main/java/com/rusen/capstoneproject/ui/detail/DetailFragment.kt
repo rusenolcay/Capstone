@@ -8,6 +8,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rusen.capstoneproject.BaseFragment
 import com.rusen.capstoneproject.R
+import com.rusen.capstoneproject.common.Resource
 import com.rusen.capstoneproject.common.viewBinding
 import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.databinding.FragmentDetailBinding
@@ -40,10 +41,18 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
             showMessage(it)
         }
         viewModel.showProductDetailEvent.observe(viewLifecycleOwner) {
-            showProductDetail(it)
+            onViewStateChange(it)
         }
         viewModel.changeFavoriteStatusEvent.observe(viewLifecycleOwner) {
             showFavoriteStatus(it)
+        }
+    }
+
+    private fun onViewStateChange(resource: Resource<Product>) {
+        when (resource) {
+            is Resource.Error -> showMessage(resource.message)
+            Resource.Loading -> Unit
+            is Resource.Success -> showProductDetail(resource.data)
         }
     }
 

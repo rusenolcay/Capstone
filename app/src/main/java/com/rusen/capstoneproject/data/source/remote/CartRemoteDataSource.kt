@@ -68,11 +68,10 @@ class CartRemoteDataSource {
     }
 
     fun deleteProductFromCart(
-        onSuccess: (List<Product>) -> Unit,
+        onSuccess: () -> Unit,
         onFailure: (String?) -> Unit,
         userId: String,
-        productId: Long,
-        currentList: MutableList<Product>
+        productId: Long
     ) {
         val request = GetDeleteFromCartRequest(productId, userId)
         val deleteCart = service?.deleteCart(request)
@@ -84,8 +83,7 @@ class CartRemoteDataSource {
                 val result = response.body()
                 if (result?.status == 200) {
                     //Basarili istek sonucunda silinmesi istenilen urunun productId'sini suanki listede filtreler ve bulunca siler.
-                    currentList.removeIf { it.id == productId }
-                    onSuccess(currentList)
+                    onSuccess()
                 } else {
                     onFailure(result?.message)
                 }
