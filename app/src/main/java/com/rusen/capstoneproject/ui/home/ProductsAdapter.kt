@@ -11,9 +11,10 @@ import com.bumptech.glide.Glide
 import com.rusen.capstoneproject.R
 import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.databinding.ItemProductBinding
+import javax.inject.Inject
 
 
-class ProductsAdapter :
+class ProductsAdapter @Inject constructor() :
     ListAdapter<Product, ProductsAdapter.ProductViewHolder>(ProductDiffUtilCallBack()) {
 
     var onProductClick: (Long) -> Unit = {}
@@ -51,6 +52,11 @@ class ProductsAdapter :
                         tvProductPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 } else {
                     tvProductDiscountedPrice.visibility = View.GONE
+                }
+                if (product.favorite) {
+                    ivFavorite.setImageResource(R.drawable.ic_favorite_filled)
+                } else {
+                    ivFavorite.setImageResource(R.drawable.ic_favorite)
                 }
                 Glide.with(root.context).load(product.imageOne).into(ivProductImage)
                 root.setOnClickListener {

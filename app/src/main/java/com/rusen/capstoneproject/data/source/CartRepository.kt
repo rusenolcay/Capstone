@@ -2,10 +2,11 @@ package com.rusen.capstoneproject.data.source
 
 import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.data.source.remote.CartRemoteDataSource
+import javax.inject.Inject
 
-class CartRepository {
-
-    private val cartRemoteDataSource = CartRemoteDataSource()
+class CartRepository @Inject constructor(
+    private val cartRemoteDataSource: CartRemoteDataSource
+) {
 
     fun addProductToCart(
         onSuccess: (String?) -> Unit,

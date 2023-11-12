@@ -10,12 +10,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor() : BaseViewModel() {
+class HomeViewModel @Inject constructor(
+    private val productRepository : ProductRepository
+) : BaseViewModel() {
 
     private val updateUI = MutableLiveData<Resource<List<Product>>>()
     val updateUIEvent: LiveData<Resource<List<Product>>> = updateUI
-
-    private val productRepository = ProductRepository()
 
     fun getProducts() {
         updateUI.value = Resource.Loading

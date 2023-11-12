@@ -7,9 +7,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SuccessViewModel @Inject constructor() : BaseViewModel() {
-
-    private val cartRepository = CartRepository()
+class SuccessViewModel @Inject constructor(
+    private val cartRepository: CartRepository
+) : BaseViewModel() {
 
     fun clearCart() {
         FirebaseAuth.getInstance().currentUser?.let { user ->

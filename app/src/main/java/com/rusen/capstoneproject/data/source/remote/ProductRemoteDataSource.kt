@@ -1,7 +1,6 @@
 package com.rusen.capstoneproject.data.source.remote
 
 import android.util.Log
-import com.rusen.capstoneproject.CapstoneApplication
 import com.rusen.capstoneproject.data.model.GetProductDetailResponse
 import com.rusen.capstoneproject.data.model.GetProductSearchResponse
 import com.rusen.capstoneproject.data.model.GetProductsResponse
@@ -9,16 +8,17 @@ import com.rusen.capstoneproject.data.model.Product
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class ProductRemoteDataSource {
-
-    private val service = CapstoneApplication.productService
+class ProductRemoteDataSource @Inject constructor(
+    private val service: ProductService
+) {
 
     fun getProducts(
         onSuccess: (List<Product>?) -> Unit,
         onFailure: (String?) -> Unit
     ) {
-        service?.getProducts()?.enqueue(object :
+        service.getProducts().enqueue(object :
             Callback<GetProductsResponse> {
             override fun onResponse(
                 call: Call<GetProductsResponse>,
@@ -43,7 +43,7 @@ class ProductRemoteDataSource {
         onSuccess: (Product) -> Unit,
         onFailure: (String?) -> Unit
     ) {
-        service?.getProductDetail(id)?.enqueue(object : Callback<GetProductDetailResponse> {
+        service.getProductDetail(id).enqueue(object : Callback<GetProductDetailResponse> {
             override fun onResponse(
                 call: Call<GetProductDetailResponse>,
                 response: Response<GetProductDetailResponse>
@@ -71,7 +71,7 @@ class ProductRemoteDataSource {
         onSuccess: (List<Product>?) -> Unit,
         onFailure: (String?) -> Unit
     ) {
-        service?.getProductsByQuery(query)?.enqueue(object : Callback<GetProductSearchResponse> {
+        service.getProductsByQuery(query).enqueue(object : Callback<GetProductSearchResponse> {
             override fun onResponse(
                 call: Call<GetProductSearchResponse>,
                 response: Response<GetProductSearchResponse>

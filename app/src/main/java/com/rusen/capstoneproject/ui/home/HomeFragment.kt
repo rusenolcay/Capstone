@@ -11,6 +11,7 @@ import com.rusen.capstoneproject.common.viewBinding
 import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
@@ -18,8 +19,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     private val binding by viewBinding(FragmentHomeBinding::bind)
     private val viewModel: HomeViewModel by viewModels()
 
-    private val discountedProductsAdapter = ProductsAdapter()
-    private val productsAdapter = ProductsAdapter()
+    @Inject
+    lateinit var discountedProductsAdapter: ProductsAdapter
+
+    @Inject
+    lateinit var productsAdapter: ProductsAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

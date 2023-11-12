@@ -2,8 +2,9 @@ package com.rusen.capstoneproject.data.source.local
 
 import com.rusen.capstoneproject.CapstoneApplication
 import com.rusen.capstoneproject.data.model.Product
+import javax.inject.Inject
 
-class ProductLocalDataSource {
+class ProductLocalDataSource @Inject constructor() {
 
     fun deleteByProductId(productId: Long) {
         CapstoneApplication.dao?.deleteByProductId(productId)

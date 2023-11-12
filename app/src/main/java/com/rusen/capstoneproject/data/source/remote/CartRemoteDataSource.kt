@@ -1,7 +1,6 @@
 package com.rusen.capstoneproject.data.source.remote
 
 import android.util.Log
-import com.rusen.capstoneproject.CapstoneApplication
 import com.rusen.capstoneproject.data.model.AddToCardRequest
 import com.rusen.capstoneproject.data.model.AddToCardResponse
 import com.rusen.capstoneproject.data.model.ClearCartRequest
@@ -13,17 +12,18 @@ import com.rusen.capstoneproject.data.model.Product
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class CartRemoteDataSource {
-
-    private val service = CapstoneApplication.productService
+class CartRemoteDataSource @Inject constructor(
+    private val service: ProductService
+) {
 
     fun getCartProducts(
         onSuccess: (List<Product>) -> Unit,
         onFailure: (String?) -> Unit,
         userId: String
     ) {
-        service?.getProductsCart(userId)?.enqueue(object : Callback<GetProductsCartResponse> {
+        service.getProductsCart(userId).enqueue(object : Callback<GetProductsCartResponse> {
             override fun onResponse(
                 call: Call<GetProductsCartResponse>,
                 response: Response<GetProductsCartResponse>
@@ -48,7 +48,7 @@ class CartRemoteDataSource {
         userId: String
     ) {
         val request = ClearCartRequest(userId)
-        service?.clearCart(request)?.enqueue(object : Callback<GetClearCartResponse> {
+        service.clearCart(request).enqueue(object : Callback<GetClearCartResponse> {
             override fun onResponse(
                 call: Call<GetClearCartResponse>,
                 response: Response<GetClearCartResponse>
@@ -74,8 +74,8 @@ class CartRemoteDataSource {
         productId: Long
     ) {
         val request = GetDeleteFromCartRequest(productId, userId)
-        val deleteCart = service?.deleteCart(request)
-        deleteCart?.enqueue(object : Callback<GetDeleteFromCartResponse> {
+        val deleteCart = service.deleteCart(request)
+        deleteCart.enqueue(object : Callback<GetDeleteFromCartResponse> {
             override fun onResponse(
                 call: Call<GetDeleteFromCartResponse>,
                 response: Response<GetDeleteFromCartResponse>
@@ -102,7 +102,7 @@ class CartRemoteDataSource {
         userId: String
     ) {
         val request = AddToCardRequest(userId = userId, productId = productId)
-        service?.addProductToCart(request)?.enqueue(object : Callback<AddToCardResponse> {
+        service.addProductToCart(request).enqueue(object : Callback<AddToCardResponse> {
             override fun onResponse(
                 call: Call<AddToCardResponse>,
                 response: Response<AddToCardResponse>

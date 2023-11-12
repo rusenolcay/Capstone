@@ -9,12 +9,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class FavoritesViewModel @Inject constructor() : BaseViewModel() {
+class FavoritesViewModel @Inject constructor(
+    private val productRepository : ProductRepository
+) : BaseViewModel() {
 
     private val showFavoriteProducts = MutableLiveData<List<Product>?>()
     val showFavoriteProductsEvent: LiveData<List<Product>?> = showFavoriteProducts
-
-    private val productRepository = ProductRepository()
 
     fun onProductDelete(productId: Long, currentList: MutableList<Product>) {
         productRepository.deleteFavoriteProductById(productId)

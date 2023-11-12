@@ -3,11 +3,12 @@ package com.rusen.capstoneproject.data.source
 import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.data.source.local.ProductLocalDataSource
 import com.rusen.capstoneproject.data.source.remote.ProductRemoteDataSource
+import javax.inject.Inject
 
-class ProductRepository {
-
-    private val localDataSource = ProductLocalDataSource()
-    private val remoteDataSource = ProductRemoteDataSource()
+class ProductRepository @Inject constructor(
+    private val localDataSource: ProductLocalDataSource,
+    private val remoteDataSource: ProductRemoteDataSource
+) {
 
     fun getProductDetail(
         id: Long,
@@ -25,7 +26,18 @@ class ProductRepository {
         onSuccess: (List<Product>?) -> Unit,
         onFailure: (String?) -> Unit
     ) {
-        remoteDataSource.getProducts(onSuccess, onFailure)
+        remoteDataSource.getProducts({ allProducts ->
+            val favoriteProducts = localDataSource.getProducts()
+            allProducts?.forEach { product ->
+                favoriteProducts?.find { favoriteProduct ->
+                    favoriteProduct.id == product.id
+                }?.let {
+                    product.favorite = true
+                }
+
+            }
+            onSuccess(allProducts)
+        }, onFailure)
     }
 
     fun getProductsByQuery(

@@ -12,16 +12,16 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor() : BaseViewModel() {
+class DetailViewModel @Inject constructor(
+    private val productRepository : ProductRepository,
+    private val cartRepository: CartRepository
+) : BaseViewModel() {
 
     private val showProductDetail = MutableLiveData<Resource<Product>>()
     val showProductDetailEvent: LiveData<Resource<Product>> = showProductDetail
 
     private val changeFavoriteStatus = MutableLiveData<Boolean>()
     val changeFavoriteStatusEvent: LiveData<Boolean> = changeFavoriteStatus
-
-    private val productRepository = ProductRepository()
-    private val cartRepository = CartRepository()
 
     fun getProductDetail(id: Long) {
         productRepository.getProductDetail(

@@ -13,12 +13,15 @@ import com.rusen.capstoneproject.data.model.Product
 import com.rusen.capstoneproject.databinding.FragmentSearchBinding
 import com.rusen.capstoneproject.ui.home.ProductsAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment(R.layout.fragment_search) {
     private val binding by viewBinding(FragmentSearchBinding::bind)
     private val viewModel: SearchViewModel by viewModels()
-    private val productsAdapter = ProductsAdapter()
+
+    @Inject
+    lateinit var productsAdapter: ProductsAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

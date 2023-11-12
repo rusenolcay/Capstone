@@ -11,12 +11,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class CartViewModel @Inject constructor() : BaseViewModel() {
+class CartViewModel @Inject constructor(
+    private val cartRepository: CartRepository
+) : BaseViewModel() {
 
     private val showCartProducts = MutableLiveData<Resource<List<Product>>>()
     val showCartProductsEvent: LiveData<Resource<List<Product>>> = showCartProducts
-
-    private val cartRepository = CartRepository()
 
     fun getCartProducts() {
         FirebaseAuth.getInstance().currentUser?.let { user ->

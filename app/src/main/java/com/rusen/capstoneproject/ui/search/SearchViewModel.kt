@@ -10,12 +10,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor() : BaseViewModel() {
+class SearchViewModel @Inject constructor(
+    private val productRepository : ProductRepository
+) : BaseViewModel() {
 
     private val showSearchProducts = MutableLiveData<Resource<List<Product>>>()
     val showSearchProductsEvent: LiveData<Resource<List<Product>>> = showSearchProducts
-
-    private val productRepository = ProductRepository()
 
     fun attemptSearch(query: String?) {
         if (query != null) {
