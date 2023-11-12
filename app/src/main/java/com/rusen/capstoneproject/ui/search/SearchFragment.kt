@@ -27,6 +27,7 @@ class SearchFragment : BaseFragment(R.layout.fragment_search) {
         super.onViewCreated(view, savedInstanceState)
 
         productsAdapter.onProductClick = ::onProductClick
+        productsAdapter.onChangedFavoriteStatus = viewModel::onChangedFavoriteStatus
         binding.rvProducts.adapter = productsAdapter
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {

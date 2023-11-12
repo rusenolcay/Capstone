@@ -31,7 +31,9 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         viewModel.getProducts()
 
         discountedProductsAdapter.onProductClick = ::onProductClick
+        discountedProductsAdapter.onChangedFavoriteStatus = viewModel::onChangedFavoriteStatus
         productsAdapter.onProductClick = ::onProductClick
+        productsAdapter.onChangedFavoriteStatus = viewModel::onChangedFavoriteStatus
 
         with(binding) {
             rvShopList.adapter = productsAdapter

@@ -45,7 +45,18 @@ class ProductRepository @Inject constructor(
         onSuccess: (List<Product>?) -> Unit,
         onFailure: (String?) -> Unit
     ) {
-        remoteDataSource.getProductsByQuery(query, onSuccess, onFailure)
+        remoteDataSource.getProductsByQuery(query, { allProducts ->
+            val favoriteProducts = localDataSource.getProducts()
+            allProducts?.forEach { product ->
+                favoriteProducts?.find { favoriteProduct ->
+                    favoriteProduct.id == product.id
+                }?.let {
+                    product.favorite = true
+                }
+
+            }
+            onSuccess(allProducts)
+        }, onFailure)
     }
 
     fun getFavoriteProduct(id: Long): Product? {

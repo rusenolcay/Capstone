@@ -17,22 +17,24 @@ import javax.inject.Inject
 class ProductsAdapter @Inject constructor() :
     ListAdapter<Product, ProductsAdapter.ProductViewHolder>(ProductDiffUtilCallBack()) {
 
-    var onProductClick: (Long) -> Unit = {}
+    var onProductClick: ((Long) -> Unit)? = null
+    var onChangedFavoriteStatus: ((Product) -> Unit)? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): ProductViewHolder {
         val binding = ItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ProductViewHolder(binding, onProductClick)
+        return ProductViewHolder(binding, onProductClick, onChangedFavoriteStatus)
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) =
         holder.bind(product = getItem(position))
 
-    class ProductViewHolder(
+    inner class ProductViewHolder(
         private val binding: ItemProductBinding,
-        private val onProductClick: (Long) -> Unit
+        private val onProductClick: ((Long) -> Unit)?,
+        private val onChangedFavoriteStatus: ((Product) -> Unit)?
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(product: Product) {
@@ -53,15 +55,27 @@ class ProductsAdapter @Inject constructor() :
                 } else {
                     tvProductDiscountedPrice.visibility = View.GONE
                 }
-                if (product.favorite) {
-                    ivFavorite.setImageResource(R.drawable.ic_favorite_filled)
-                } else {
-                    ivFavorite.setImageResource(R.drawable.ic_favorite)
-                }
+                setFavoriteIcon(product.favorite)
                 Glide.with(root.context).load(product.imageOne).into(ivProductImage)
-                root.setOnClickListener {
-                    product.id?.let { onProductClick(it) }
+                ivFavorite.setOnClickListener {
+                    onFavoriteToggleClicked(product)
                 }
+                root.setOnClickListener {
+                    product.id?.let { onProductClick?.invoke(it) }
+                }
+            }
+        }
+
+        private fun onFavoriteToggleClicked(product: Product) {
+            onChangedFavoriteStatus?.invoke(product)
+            setFavoriteIcon(product.favorite)
+        }
+
+        private fun setFavoriteIcon(favorite: Boolean) {
+            if (favorite) {
+                binding.ivFavorite.setImageResource(R.drawable.ic_favorite_filled)
+            } else {
+                binding.ivFavorite.setImageResource(R.drawable.ic_favorite)
             }
         }
     }

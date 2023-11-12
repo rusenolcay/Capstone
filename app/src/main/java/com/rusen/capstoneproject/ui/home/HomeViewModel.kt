@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val productRepository : ProductRepository
+    private val productRepository: ProductRepository
 ) : BaseViewModel() {
 
     private val updateUI = MutableLiveData<Resource<List<Product>>>()
@@ -27,5 +27,15 @@ class HomeViewModel @Inject constructor(
                 updateUI.value = Resource.Error(it)
             }
         )
+    }
+
+    fun onChangedFavoriteStatus(product: Product) {
+        if (product.favorite) {
+            product.id?.let { productRepository.deleteFavoriteProductById(it) }
+            product.favorite = false
+        } else {
+            product.favorite = true
+            productRepository.addFavoriteProduct(product)
+        }
     }
 }

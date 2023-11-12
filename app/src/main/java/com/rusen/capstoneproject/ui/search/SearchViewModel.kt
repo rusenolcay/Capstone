@@ -38,4 +38,14 @@ class SearchViewModel @Inject constructor(
             query = query
         )
     }
+
+    fun onChangedFavoriteStatus(product: Product) {
+        if (product.favorite) {
+            product.id?.let { productRepository.deleteFavoriteProductById(it) }
+            product.favorite = false
+        } else {
+            product.favorite = true
+            productRepository.addFavoriteProduct(product)
+        }
+    }
 }
