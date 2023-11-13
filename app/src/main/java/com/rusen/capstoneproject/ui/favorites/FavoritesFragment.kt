@@ -8,7 +8,6 @@ import com.rusen.capstoneproject.BaseFragment
 import com.rusen.capstoneproject.R
 import com.rusen.capstoneproject.common.viewBinding
 import com.rusen.capstoneproject.databinding.FragmentFavoritesBinding
-import com.rusen.capstoneproject.ui.cart.CartFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,7 +39,7 @@ class FavoritesFragment : BaseFragment(R.layout.fragment_favorites) {
 
     private fun onProductClick(productId: Long) {
         findNavController().navigate(
-            CartFragmentDirections.actionCartFragmentToDetailFragment(
+            FavoritesFragmentDirections.actionFavoritesFragmentToDetailFragment(
                 productId = productId
             )
         )

@@ -1,31 +1,29 @@
 package com.rusen.capstoneproject.data.source.local
 
-import com.rusen.capstoneproject.CapstoneApplication
 import com.rusen.capstoneproject.data.model.Product
 import javax.inject.Inject
 
-class ProductLocalDataSource @Inject constructor() {
+class ProductLocalDataSource @Inject constructor(
+    private val dao: ProductDao
+) {
 
     fun deleteByProductId(productId: Long) {
-        CapstoneApplication.dao?.deleteByProductId(productId)
+        dao.deleteByProductId(productId)
     }
 
     fun deleteAllProducts() {
-        CapstoneApplication.dao?.deleteAllProducts()
+        dao.deleteAllProducts()
     }
 
-    fun getProducts(): List<Product>? {
-        return CapstoneApplication.dao?.getProducts()
+    fun getProducts() = dao.getProducts()
+
+    fun getProduct(id: Long) = dao.getProduct(id)
+
+    fun deleteProduct(product: Product) {
+        dao.deleteProduct(product)
     }
 
-    fun getProduct(id: Long): Product? {
-        return CapstoneApplication.dao?.getProduct(id)
-    }
-
-    fun deleteProduct(product: Product){
-        CapstoneApplication.dao?.deleteProduct(product)
-    }
-    fun addProduct(product: Product){
-        CapstoneApplication.dao?.addProduct(product)
+    fun addProduct(product: Product) {
+        dao.addProduct(product)
     }
 }

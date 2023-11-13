@@ -2,6 +2,7 @@ package com.rusen.capstoneproject.di
 
 import com.rusen.capstoneproject.data.source.CartRepository
 import com.rusen.capstoneproject.data.source.ProductRepository
+import com.rusen.capstoneproject.data.source.local.ProductDao
 import com.rusen.capstoneproject.data.source.local.ProductLocalDataSource
 import com.rusen.capstoneproject.data.source.remote.CartRemoteDataSource
 import com.rusen.capstoneproject.data.source.remote.ProductRemoteDataSource
@@ -26,7 +27,8 @@ object DataModule {
     @Provides
     @Singleton
     fun provideProductLocalDataSource(
-    ) = ProductLocalDataSource()
+        productDao: ProductDao
+    ) = ProductLocalDataSource(productDao)
 
     @Provides
     @Singleton
