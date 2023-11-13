@@ -1,8 +1,8 @@
 ## Tech Stack
 
 - [X] MVVM
-- [ ] Hilt
-- [ ] Coroutine
+- [X] Hilt
+- [X] Coroutine
 - [X] Navigation Component
 - [X] Retrofit
 - [X] Room
