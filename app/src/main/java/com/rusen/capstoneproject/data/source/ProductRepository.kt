@@ -27,16 +27,8 @@ class ProductRepository @Inject constructor(
         onFailure: (String?) -> Unit
     ) {
         remoteDataSource.getProducts({ allProducts ->
-            val favoriteProducts = localDataSource.getProducts()
-            allProducts?.forEach { product ->
-                favoriteProducts?.find { favoriteProduct ->
-                    favoriteProduct.id == product.id
-                }?.let {
-                    product.favorite = true
-                }
-
-            }
-            onSuccess(allProducts)
+            val allProductsWithFavoriteStatus = mergeWithFavoriteProducts(allProducts)
+            onSuccess(allProductsWithFavoriteStatus)
         }, onFailure)
     }
 
@@ -46,17 +38,21 @@ class ProductRepository @Inject constructor(
         onFailure: (String?) -> Unit
     ) {
         remoteDataSource.getProductsByQuery(query, { allProducts ->
-            val favoriteProducts = localDataSource.getProducts()
-            allProducts?.forEach { product ->
-                favoriteProducts?.find { favoriteProduct ->
-                    favoriteProduct.id == product.id
-                }?.let {
-                    product.favorite = true
-                }
-
-            }
-            onSuccess(allProducts)
+            val allProductsWithFavoriteStatus = mergeWithFavoriteProducts(allProducts)
+            onSuccess(allProductsWithFavoriteStatus)
         }, onFailure)
+    }
+
+    private fun mergeWithFavoriteProducts(allProducts: List<Product>?): List<Product>? {
+        val favoriteProducts = localDataSource.getProducts()
+        allProducts?.forEach { product ->
+            favoriteProducts?.find { favoriteProduct ->
+                favoriteProduct.id == product.id
+            }?.let {
+                product.favorite = true
+            }
+        }
+        return allProducts
     }
 
     fun getFavoriteProduct(id: Long): Product? {
