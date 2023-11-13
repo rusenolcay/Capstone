@@ -28,8 +28,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getProducts()
-
         discountedProductsAdapter.onProductClick = ::onProductClick
         discountedProductsAdapter.onChangedFavoriteStatus = viewModel::onChangedFavoriteStatus
         productsAdapter.onProductClick = ::onProductClick
@@ -53,7 +51,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     private fun onViewStateChange(resource: Resource<List<Product>>) {
         when (resource) {
-            is Resource.Error -> showMessage(resource.message)
+            is Resource.Error -> showMessage(resource.throwable.message)
             Resource.Loading -> Unit
             is Resource.Success -> updateUI(resource.data)
         }

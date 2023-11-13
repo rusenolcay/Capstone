@@ -27,7 +27,6 @@ class CartFragment : BaseFragment(R.layout.fragment_cart) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getCartProducts()
         binding.recyclerView.adapter = cartAdapter
         binding.ivClearCart.setOnClickListener {
             viewModel.clearCart()
@@ -50,7 +49,7 @@ class CartFragment : BaseFragment(R.layout.fragment_cart) {
 
     private fun onViewStateChange(resource: Resource<List<Product>>) {
         when (resource) {
-            is Resource.Error -> showMessage(resource.message)
+            is Resource.Error -> showMessage(resource.throwable.message)
             Resource.Loading -> Unit
             is Resource.Success -> updateUI(resource.data)
         }

@@ -50,7 +50,7 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
 
     private fun onViewStateChange(resource: Resource<Product>) {
         when (resource) {
-            is Resource.Error -> showMessage(resource.message)
+            is Resource.Error -> showMessage(resource.throwable.message)
             Resource.Loading -> Unit
             is Resource.Success -> showProductDetail(resource.data)
         }

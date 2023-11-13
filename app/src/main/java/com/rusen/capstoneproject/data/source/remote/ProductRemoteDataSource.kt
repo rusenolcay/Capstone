@@ -1,91 +1,14 @@
 package com.rusen.capstoneproject.data.source.remote
 
-import android.util.Log
-import com.rusen.capstoneproject.data.model.GetProductDetailResponse
-import com.rusen.capstoneproject.data.model.GetProductSearchResponse
-import com.rusen.capstoneproject.data.model.GetProductsResponse
-import com.rusen.capstoneproject.data.model.Product
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 class ProductRemoteDataSource @Inject constructor(
     private val service: ProductService
 ) {
 
-    fun getProducts(
-        onSuccess: (List<Product>?) -> Unit,
-        onFailure: (String?) -> Unit
-    ) {
-        service.getProducts().enqueue(object :
-            Callback<GetProductsResponse> {
-            override fun onResponse(
-                call: Call<GetProductsResponse>,
-                response: Response<GetProductsResponse>
-            ) {
-                val result = response.body()
-                if (result?.status == 200) {
-                    onSuccess(result.products)
-                } else {
-                    onFailure(result?.message)
-                }
-            }
+    suspend fun getProducts() = service.getProducts()
 
-            override fun onFailure(call: Call<GetProductsResponse>, t: Throwable) {
-                Log.e("GetProducts", t.message.orEmpty())
-            }
-        })
-    }
+    suspend fun getProductDetail(id: Long) = service.getProductDetail(id)
 
-    fun getProductDetail(
-        id: Long,
-        onSuccess: (Product) -> Unit,
-        onFailure: (String?) -> Unit
-    ) {
-        service.getProductDetail(id).enqueue(object : Callback<GetProductDetailResponse> {
-            override fun onResponse(
-                call: Call<GetProductDetailResponse>,
-                response: Response<GetProductDetailResponse>
-            ) {
-                val result = response.body()
-                result?.let {
-                    if (result.status == 200) {
-                        result.product?.let {
-                            onSuccess(it)
-                        }
-                    } else {
-                        onFailure(result.message)
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<GetProductDetailResponse>, t: Throwable) {
-                Log.e("GetProductDetail", t.message.orEmpty())
-            }
-        })
-    }
-
-    fun getProductsByQuery(
-        query: String,
-        onSuccess: (List<Product>?) -> Unit,
-        onFailure: (String?) -> Unit
-    ) {
-        service.getProductsByQuery(query).enqueue(object : Callback<GetProductSearchResponse> {
-            override fun onResponse(
-                call: Call<GetProductSearchResponse>,
-                response: Response<GetProductSearchResponse>
-            ) {
-                val result = response.body()
-                onSuccess(result?.products)
-                if (result?.status != 200) {
-                    onFailure(result?.message)
-                }
-            }
-
-            override fun onFailure(call: Call<GetProductSearchResponse>, t: Throwable) {
-                Log.e("GetProductSearchResponse", t.message.orEmpty())
-            }
-        })
-    }
+    suspend fun getProductsByQuery(query: String) = service.getProductsByQuery(query)
 }

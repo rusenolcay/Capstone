@@ -10,7 +10,6 @@ import com.rusen.capstoneproject.data.model.GetProductDetailResponse
 import com.rusen.capstoneproject.data.model.GetProductSearchResponse
 import com.rusen.capstoneproject.data.model.GetProductsCartResponse
 import com.rusen.capstoneproject.data.model.GetProductsResponse
-import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -18,35 +17,35 @@ import retrofit2.http.Query
 
 interface ProductService {
     @GET("get_products.php")
-    fun getProducts(): Call<GetProductsResponse>
+    suspend fun getProducts(): GetProductsResponse
 
     @GET("get_product_detail.php")
-    fun getProductDetail(
-        @Query("id") id : Long
-    ): Call<GetProductDetailResponse>
+    suspend fun getProductDetail(
+        @Query("id") id: Long
+    ): GetProductDetailResponse
 
     @GET("search_product.php")
-    fun getProductsByQuery(
-        @Query("query") query : String
-    ): Call<GetProductSearchResponse>
+    suspend fun getProductsByQuery(
+        @Query("query") query: String
+    ): GetProductSearchResponse
 
     @POST("add_to_cart.php")
-    fun addProductToCart(
-         @Body request: AddToCardRequest
-    ): Call<AddToCardResponse>
+    suspend fun addProductToCart(
+        @Body request: AddToCardRequest
+    ): AddToCardResponse
 
     @GET("get_cart_products.php")
-    fun getProductsCart(
-        @Query("userId") userId : String
-    ): Call<GetProductsCartResponse>
+    suspend fun getProductsCart(
+        @Query("userId") userId: String
+    ): GetProductsCartResponse
 
     @POST("clear_cart.php")
-    fun clearCart(
+    suspend fun clearCart(
         @Body request: ClearCartRequest
-    ): Call<GetClearCartResponse>
+    ): GetClearCartResponse
 
     @POST("delete_from_cart.php")
-    fun deleteCart(
+    suspend fun deleteCart(
         @Body request: GetDeleteFromCartRequest
-    ): Call<GetDeleteFromCartResponse>
+    ): GetDeleteFromCartResponse
 }

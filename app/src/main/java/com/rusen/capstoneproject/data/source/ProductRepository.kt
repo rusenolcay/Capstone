@@ -10,43 +10,22 @@ class ProductRepository @Inject constructor(
     private val remoteDataSource: ProductRemoteDataSource
 ) {
 
-    fun getProductDetail(
-        id: Long,
-        onSuccess: (Product) -> Unit,
-        onFailure: (String?) -> Unit
-    ) {
-        return remoteDataSource.getProductDetail(
-            id = id,
-            onSuccess = onSuccess,
-            onFailure = onFailure
-        )
+    suspend fun getProductDetail(id: Long) = remoteDataSource.getProductDetail(id)
+
+    suspend fun getProducts(): List<Product>? {
+        val allProducts = remoteDataSource.getProducts().products
+        return mergeWithFavoriteProducts(allProducts)
     }
 
-    fun getProducts(
-        onSuccess: (List<Product>?) -> Unit,
-        onFailure: (String?) -> Unit
-    ) {
-        remoteDataSource.getProducts({ allProducts ->
-            val allProductsWithFavoriteStatus = mergeWithFavoriteProducts(allProducts)
-            onSuccess(allProductsWithFavoriteStatus)
-        }, onFailure)
+    suspend fun getProductsByQuery(query: String): List<Product>? {
+        val productsByQuery = remoteDataSource.getProductsByQuery(query)
+        return mergeWithFavoriteProducts(productsByQuery.products)
     }
 
-    fun getProductsByQuery(
-        query: String,
-        onSuccess: (List<Product>?) -> Unit,
-        onFailure: (String?) -> Unit
-    ) {
-        remoteDataSource.getProductsByQuery(query, { allProducts ->
-            val allProductsWithFavoriteStatus = mergeWithFavoriteProducts(allProducts)
-            onSuccess(allProductsWithFavoriteStatus)
-        }, onFailure)
-    }
-
-    private fun mergeWithFavoriteProducts(allProducts: List<Product>?): List<Product>? {
+    private suspend fun mergeWithFavoriteProducts(allProducts: List<Product>?): List<Product>? {
         val favoriteProducts = localDataSource.getProducts()
         allProducts?.forEach { product ->
-            favoriteProducts?.find { favoriteProduct ->
+            favoriteProducts.find { favoriteProduct ->
                 favoriteProduct.id == product.id
             }?.let {
                 product.favorite = true
@@ -55,27 +34,23 @@ class ProductRepository @Inject constructor(
         return allProducts
     }
 
-    fun getFavoriteProduct(id: Long): Product? {
-        return localDataSource.getProduct(id)
-    }
+    suspend fun getFavoriteProduct(id: Long) = localDataSource.getProduct(id)
 
-    fun deleteFavoriteProduct(product: Product) {
-        return localDataSource.deleteProduct(product)
-    }
+    suspend fun deleteFavoriteProduct(product: Product) = localDataSource.deleteProduct(product)
 
-    fun addFavoriteProduct(product: Product) {
+    suspend fun addFavoriteProduct(product: Product) {
         localDataSource.addProduct(product)
     }
 
-    fun deleteFavoriteProductById(id: Long) {
+    suspend fun deleteFavoriteProductById(id: Long) {
         localDataSource.deleteByProductId(id)
     }
 
-    fun deleteAllFavoriteProducts() {
+    suspend fun deleteAllFavoriteProducts() {
         localDataSource.deleteAllProducts()
     }
 
-    fun getFavoriteProducts(): List<Product>? {
+    suspend fun getFavoriteProducts(): List<Product> {
         return localDataSource.getProducts()
     }
 }

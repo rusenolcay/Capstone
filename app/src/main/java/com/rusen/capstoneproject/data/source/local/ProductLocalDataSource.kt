@@ -1,29 +1,36 @@
 package com.rusen.capstoneproject.data.source.local
 
 import com.rusen.capstoneproject.data.model.Product
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 class ProductLocalDataSource @Inject constructor(
-    private val dao: ProductDao
+    private val dao: ProductDao,
+    private val ioDispatcher: CoroutineContext
 ) {
 
-    fun deleteByProductId(productId: Long) {
+    suspend fun deleteByProductId(productId: Long) = withContext(ioDispatcher) {
         dao.deleteByProductId(productId)
     }
 
-    fun deleteAllProducts() {
+    suspend fun deleteAllProducts() = withContext(ioDispatcher) {
         dao.deleteAllProducts()
     }
 
-    fun getProducts() = dao.getProducts()
+    suspend fun getProducts() = withContext(ioDispatcher) {
+        dao.getProducts()
+    }
 
-    fun getProduct(id: Long) = dao.getProduct(id)
+    suspend fun getProduct(id: Long) = withContext(ioDispatcher) {
+        dao.getProduct(id)
+    }
 
-    fun deleteProduct(product: Product) {
+    suspend fun deleteProduct(product: Product) = withContext(ioDispatcher) {
         dao.deleteProduct(product)
     }
 
-    fun addProduct(product: Product) {
+    suspend fun addProduct(product: Product) = withContext(ioDispatcher) {
         dao.addProduct(product)
     }
 }

@@ -12,6 +12,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
+import kotlin.coroutines.CoroutineContext
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -27,8 +28,9 @@ object DataModule {
     @Provides
     @Singleton
     fun provideProductLocalDataSource(
-        productDao: ProductDao
-    ) = ProductLocalDataSource(productDao)
+        productDao: ProductDao,
+        ioDispatcher: CoroutineContext
+    ) = ProductLocalDataSource(productDao, ioDispatcher)
 
     @Provides
     @Singleton

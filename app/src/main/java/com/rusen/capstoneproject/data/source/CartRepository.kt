@@ -1,6 +1,6 @@
 package com.rusen.capstoneproject.data.source
 
-import com.rusen.capstoneproject.data.model.Product
+import com.rusen.capstoneproject.data.model.AddToCardResponse
 import com.rusen.capstoneproject.data.source.remote.CartRemoteDataSource
 import javax.inject.Inject
 
@@ -8,42 +8,17 @@ class CartRepository @Inject constructor(
     private val cartRemoteDataSource: CartRemoteDataSource
 ) {
 
-    fun addProductToCart(
-        onSuccess: (String?) -> Unit,
-        onFailure: (String?) -> Unit,
+    suspend fun addProductToCart(
         productId: Long,
         userId: String
-    ) {
-        cartRemoteDataSource.addProductToCart(onSuccess, onFailure, productId, userId)
+    ): AddToCardResponse {
+        return cartRemoteDataSource.addProductToCart(productId, userId)
     }
 
-    fun getCartProducts(
-        onSuccess: (List<Product>) -> Unit,
-        onFailure: (String?) -> Unit,
-        userId: String
-    ) {
-        cartRemoteDataSource.getCartProducts(onSuccess, onFailure, userId)
-    }
+    suspend fun getCartProducts(userId: String) = cartRemoteDataSource.getCartProducts(userId)
 
-    fun clearCart(
-        onSuccess: () -> Unit,
-        onFailure: (String?) -> Unit,
-        userId: String
-    ) {
-        cartRemoteDataSource.clearCart(onSuccess, onFailure, userId)
-    }
+    suspend fun clearCart(userId: String) = cartRemoteDataSource.clearCart(userId)
 
-    fun deleteProductFromCart(
-        onSuccess: () -> Unit,
-        onFailure: (String?) -> Unit,
-        userId: String,
-        productId: Long
-    ) {
-        cartRemoteDataSource.deleteProductFromCart(
-            onSuccess,
-            onFailure,
-            userId,
-            productId
-        )
-    }
+    suspend fun deleteProductFromCart(userId: String, productId: Long) =
+        cartRemoteDataSource.deleteProductFromCart(userId, productId)
 }

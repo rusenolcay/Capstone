@@ -9,20 +9,20 @@ import com.rusen.capstoneproject.data.model.Product
 @Dao
 interface ProductDao {
     @Query("SELECT * FROM product")
-    fun getProducts(): List<Product>
+    suspend fun getProducts(): List<Product>
 
     @Query("SELECT * FROM product WHERE id = :id")
-    fun getProduct(id: Long): Product?
+    suspend fun getProduct(id: Long): Product?
 
     @Insert
-    fun addProduct(vararg products: Product)
+    suspend fun addProduct(vararg products: Product)
 
     @Delete
-    fun deleteProduct(product: Product)
+    suspend fun deleteProduct(product: Product)
 
     @Query("DELETE FROM product")
-    fun deleteAllProducts()
+    suspend fun deleteAllProducts()
 
     @Query("DELETE FROM product WHERE id = :productId")
-    fun deleteByProductId(productId: Long)
+    suspend fun deleteByProductId(productId: Long)
 }
