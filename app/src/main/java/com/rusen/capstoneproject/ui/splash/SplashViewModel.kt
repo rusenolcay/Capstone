@@ -1,12 +1,13 @@
 package com.rusen.capstoneproject.ui.splash
 
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.rusen.capstoneproject.ui.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,12 +24,10 @@ class SplashViewModel @Inject constructor() : BaseViewModel() {
     val navigateLoginEvent: LiveData<Boolean> = navigateLogin
 
     init {
-        /**
-         * Looper kullanarak 3000 ms' lik cekme yaratiyoruz.
-         */
-        Handler(Looper.getMainLooper()).postDelayed({
+        viewModelScope.launch {
+            delay(DELAY)
             startNextScreen()
-        }, DELAY)
+        }
     }
 
     /**
