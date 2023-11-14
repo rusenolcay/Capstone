@@ -25,6 +25,7 @@ class CartViewModel @Inject constructor(
     }
 
     private fun getCartProducts() {
+        showCartProducts.value = Resource.Loading
         viewModelScope.launch {
             FirebaseAuth.getInstance().currentUser?.let { user ->
                 try {
@@ -38,6 +39,7 @@ class CartViewModel @Inject constructor(
     }
 
     fun clearCart() {
+        showCartProducts.value = Resource.Loading
         viewModelScope.launch {
             FirebaseAuth.getInstance().currentUser?.let { user ->
                 try {
@@ -51,6 +53,7 @@ class CartViewModel @Inject constructor(
     }
 
     fun onProductDelete(productId: Long, currentList: MutableList<Product>) {
+        showCartProducts.value = Resource.Loading
         viewModelScope.launch {
             FirebaseAuth.getInstance().currentUser?.let { user ->
                 try {
@@ -62,7 +65,7 @@ class CartViewModel @Inject constructor(
                     currentList.removeIf { it.id == productId }
                     showCartProducts.value = Resource.Success(currentList)
                 } catch (e: Exception) {
-                    showMessage.value = e.message
+                    showCartProducts.value = Resource.Error(e)
                 }
             }
         }

@@ -48,9 +48,10 @@ class CartFragment : BaseFragment(R.layout.fragment_cart) {
     }
 
     private fun onViewStateChange(resource: Resource<List<Product>>) {
+        binding.progressBar.visibility = View.GONE
         when (resource) {
             is Resource.Error -> showMessage(resource.throwable.message)
-            Resource.Loading -> Unit
+            Resource.Loading -> binding.progressBar.visibility = View.VISIBLE
             is Resource.Success -> updateUI(resource.data)
         }
     }
