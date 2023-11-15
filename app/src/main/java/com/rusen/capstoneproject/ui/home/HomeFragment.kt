@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.rusen.capstoneproject.BaseFragment
 import com.rusen.capstoneproject.R
 import com.rusen.capstoneproject.common.Resource
@@ -36,6 +37,12 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         with(binding) {
             rvShopList.adapter = productsAdapter
             rvShopListSale.adapter = discountedProductsAdapter
+
+            ivExitApp.setOnClickListener {
+                showMessageDialog(
+                    message = getString(R.string.exit_account_message),
+                    positiveButtonAction = { _, _ -> navigateSignIn() })
+            }
         }
         viewModel.showMessageEvent.observe(viewLifecycleOwner) { message ->
             showMessage(message)
@@ -64,5 +71,10 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         // result.products icindeki saleState degeri true olan urunleri filtreleyerek bulduk.
         val discountedProducts = products.filter { it.saleState == true }
         discountedProductsAdapter.submitList(discountedProducts)
+    }
+
+    private fun navigateSignIn() {
+        FirebaseAuth.getInstance().signOut()
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSplashFragment())
     }
 }

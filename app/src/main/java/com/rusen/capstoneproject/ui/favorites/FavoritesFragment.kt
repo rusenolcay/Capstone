@@ -19,20 +19,23 @@ class FavoritesFragment : BaseFragment(R.layout.fragment_favorites) {
         onProductClick = ::onProductClick,
         onProductDelete = ::onProductDelete
     )
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerView.adapter = favoritesAdapter
 
-        binding.ivClearFavorite.setOnClickListener {
+        binding.tvClearFavorite.setOnClickListener {
             viewModel.clearFavorites()
+            binding.tvClearFavorite.visibility = View.GONE
         }
 
-        viewModel.showFavoriteProductsEvent.observe(viewLifecycleOwner){
+        viewModel.showFavoriteProductsEvent.observe(viewLifecycleOwner) {
+            binding.tvClearFavorite.visibility = if (it.isNullOrEmpty()) View.GONE else View.VISIBLE
             favoritesAdapter.submitList(it)
         }
-        viewModel.showMessageEvent.observe(viewLifecycleOwner){
-           showMessage(it)
+        viewModel.showMessageEvent.observe(viewLifecycleOwner) {
+            showMessage(it)
         }
         viewModel.getFavoriteProducts()
     }

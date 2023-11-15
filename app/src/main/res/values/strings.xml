@@ -44,4 +44,8 @@
     <string name="order_received">SİPARİŞİNİZ ALINDI</string>
     <string name="go_home">ANA SAYFAYA GİT</string>
     <string name="my_favorites">Favorilerim</string>
+    <string name="caution">Uyarı</string>
+    <string name="exit_account_message">Hesabinizdan cikis yapmak istediginize emin misiniz</string>
+    <string name="yes">Evet</string>
+    <string name="no">Hayir</string>
 </resources>

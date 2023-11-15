@@ -25,7 +25,7 @@ class RegisterViewModel @Inject constructor() : BaseViewModel() {
     }
 
     private fun register(email: String, password: String) {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 navigateHome.value = true
             }.addOnFailureListener {

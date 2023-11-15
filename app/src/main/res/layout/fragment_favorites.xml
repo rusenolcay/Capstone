@@ -20,7 +20,7 @@
         app:title="@string/my_favorites">
 
         <TextView
-            android:id="@+id/ivClearFavorite"
+            android:id="@+id/tvClearFavorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
