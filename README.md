@@ -1,3 +1,9 @@
+## Presentation
+[CapstoneProject.pptx](https://github.com/rusenolcay/Capstone/blob/master/Capstone%20Project.pptx)
+
+## Video
+[CapstoneProject.mp4](https://drive.google.com/drive/folders/1GHgEHJAIH9wiGK8UQO6zSJFQSGfJeb-n?usp=sharing)
+
 ## Tech Stack
 
 - [X] MVVM
