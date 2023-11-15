@@ -2,7 +2,7 @@
 [CapstoneProject.pptx](https://github.com/rusenolcay/Capstone/blob/master/Capstone%20Project.pptx)
 
 ## Video
-[CapstoneProject.mp4](https://drive.google.com/drive/folders/1GHgEHJAIH9wiGK8UQO6zSJFQSGfJeb-n?usp=sharing)
+[CapstoneProject.mp4](https://drive.google.com/file/d/1e7wYDD8iLcVPQZa4UGOTmHSS_-Rc12k1/view?usp=drive_link)
 
 ## Tech Stack
 
