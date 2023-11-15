@@ -19,6 +19,9 @@ class PaymentFragment : BaseFragment(R.layout.fragment_payment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.ivBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
         binding.btnForward.setOnClickListener {
             viewModel.attemptPayment(
                 date = binding.tvDate.text.toString(),
